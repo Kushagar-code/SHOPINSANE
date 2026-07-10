@@ -7,8 +7,6 @@ import { CartDrawer } from "@/components/ui/CartDrawer";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const runtime = 'edge';
-
 export const metadata: Metadata = {
   title: "Shopinsane",
   description: "Premium Digital Assets Marketplace",

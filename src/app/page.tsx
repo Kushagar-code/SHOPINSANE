@@ -3,6 +3,7 @@ import { getProducts } from '@/lib/api/products'
 import { ProductCard } from '@/components/ui/ProductCard'
 import { Suspense } from 'react'
 
+export const runtime = 'edge'
 
 export default async function Home() {
   return (
