@@ -539,11 +539,11 @@ The project implementation timeline is structured into four sequential, checkabl
 - **Duration Estimate:** 2.5 Hours
 - **Goal Statement:** Create the dynamic details screen utilizing full-bleed hero visuals, thumbnail strips, and interactive reviews.
 - **Task Checklist:**
-  - [ ] Design a `/products/[id]` (or slug fallback) page.
-  - [ ] Display full-bleed product hero images inside a `28px` rounded panel.
-  - [ ] Assemble a bottom `MiniThumbnailStrip` displaying additional images as 48px square nodes with `12px` radii separated by 2px gaps.
-  - [ ] Render metadata columns: Large title text using GT Standard tracking constraints, tag indicators, price values, and detailed descriptions.
-  - [ ] Build a Customer Reviews segment showing a list of simulated reviews (User email, rating stars, and feedback commentary).
+  - [x] Design a `/products/[id]` (or slug fallback) page.
+  - [x] Display full-bleed product hero images inside a `28px` rounded panel.
+  - [x] Assemble a bottom `MiniThumbnailStrip` displaying additional images as 48px square nodes with `12px` radii separated by 2px gaps.
+  - [x] Render metadata columns: Large title text using GT Standard tracking constraints, tag indicators, price values, and detailed descriptions.
+  - [x] Build a Customer Reviews segment showing a list of simulated reviews (User email, rating stars, and feedback commentary).
 - **Success Criteria:**
   - Clicking mini thumbnails swaps active main hero assets cleanly.
   - Customers can view reviews and submit a new mock rating star score and comment.
@@ -555,10 +555,10 @@ The project implementation timeline is structured into four sequential, checkabl
 - **Duration Estimate:** 2 Hours
 - **Goal Statement:** Establish related item galleries that automatically filter catalog items using category and tag matches.
 - **Task Checklist:**
-  - [ ] Include a horizontal product carousel below product description details.
-  - [ ] Write client-side array filters isolating catalog entries belonging to same category IDs.
-  - [ ] Filter out current active items to prevent self-referential listings.
-  - [ ] Render carousel navigation arrows styled with circular white buttons and shadows.
+  - [x] Include a horizontal product carousel below product description details.
+  - [x] Write client-side array filters isolating catalog entries belonging to same category IDs.
+  - [x] Filter out current active items to prevent self-referential listings.
+  - [x] Render carousel navigation arrows styled with circular white buttons and shadows.
 - **Success Criteria:**
   - Gallery populates with exactly 2 to 4 contextual products.
   - Navigating to different product categories refreshes recommendations instantly.
@@ -570,11 +570,11 @@ The project implementation timeline is structured into four sequential, checkabl
 - **Duration Estimate:** 3 Hours
 - **Goal Statement:** Develop the global cart overlay managing slide animations and calculations.
 - **Task Checklist:**
-  - [ ] Set up a Zustand store (`src/store/useCartStore.ts`) tracking items, quantities, and drawer states.
-  - [ ] Implement `CartDrawer` using Framer Motion slide transitions (`initial={{ x: '100%' }}`).
-  - [ ] Map absolute page properties: drawer overlay must block body scrolling underneath while active.
-  - [ ] Add line items with thumbnail images, quantity selectors (+/-), subtotals, and a clear button.
-  - [ ] Insert a Shop Violet "Proceed to Checkout" action button linking directly to `/checkout`.
+  - [x] Set up a Zustand store (`src/store/useCartStore.ts`) tracking items, quantities, and drawer states.
+  - [x] Implement `CartDrawer` using Framer Motion slide transitions (`initial={{ x: '100%' }}`).
+  - [x] Map absolute page properties: drawer overlay must block body scrolling underneath while active.
+  - [x] Add line items with thumbnail images, quantity selectors (+/-), subtotals, and a clear button.
+  - [x] Insert a Shop Violet "Proceed to Checkout" action button linking directly to `/checkout`.
 - **Success Criteria:**
   - Adding items updates badge counters and opens the slide-in drawer.
   - Empty cart displays the desaturated empty state layout.
@@ -590,10 +590,10 @@ The project implementation timeline is structured into four sequential, checkabl
 - **Duration Estimate:** 2.5 Hours
 - **Goal Statement:** Design the single-page checkout form validating inputs via explicit Zod schemas.
 - **Task Checklist:**
-  - [ ] Setup a checkout page path `/checkout` displaying order summaries.
-  - [ ] Create shipping address inputs: email, full name, shipping street address, city, postal code.
-  - [ ] Validate address structures using Zod schemas (`email`, `min(1)` bounds, zip-code regex matching).
-  - [ ] Build a mock submit handler: on successful validate, push mock order data to store (or local storage collections), deduct stock quantities, reset cart state, and redirect to the confirmation tracking path.
+  - [x] Setup a checkout page path `/checkout` displaying order summaries.
+  - [x] Create shipping address inputs: email, full name, shipping street address, city, postal code.
+  - [x] Validate address structures using Zod schemas (`email`, `min(1)` bounds, zip-code regex matching).
+  - [x] Build a mock submit handler: on successful validate, push mock order data to store (or local storage collections), deduct stock quantities, reset cart state, and redirect to the confirmation tracking path.
 - **Success Criteria:**
   - Validation fails flag invalid fields with descriptive muted red message nodes.
   - Proceeding with blank cart contents bounces users back to `/`.
@@ -605,10 +605,10 @@ The project implementation timeline is structured into four sequential, checkabl
 - **Duration Estimate:** 2 Hours
 - **Goal Statement:** Develop the visual order progression timeline displaying tracking statuses, carrier names, and tracking codes.
 - **Task Checklist:**
-  - [ ] Create the order confirmation page route `/orders/[id]`.
-  - [ ] Build a tracking stepper tracing four steps: `Ordered` -> `Shipped` -> `Out for Delivery` -> `Delivered`.
-  - [ ] Display carrier identification details (e.g. FedEx, DHL, UPS) and a unique alphanumeric tracking number.
-  - [ ] Highlight active statuses and completed connection lines using Shop Violet color accents.
+  - [x] Create the order confirmation page route `/orders/[id]`.
+  - [x] Build a tracking stepper tracing four steps: `Ordered` -> `Shipped` -> `Out for Delivery` -> `Delivered`.
+  - [x] Display carrier identification details (e.g. FedEx, DHL, UPS) and a unique alphanumeric tracking number.
+  - [x] Highlight active statuses and completed connection lines using Shop Violet color accents.
 - **Success Criteria:**
   - Stepper dynamically reads database string properties (`status`) and displays active highlights correctly.
   - Layout displays carrier details, tracking codes, and delivery estimations clearly.
@@ -620,11 +620,11 @@ The project implementation timeline is structured into four sequential, checkabl
 - **Duration Estimate:** 3 Hours
 - **Goal Statement:** Build the secure dashboard to add products, manually advance order statuses, assign carriers, and view detailed metrics.
 - **Task Checklist:**
-  - [ ] Setup the `/admin` dashboard path.
-  - [ ] Lock route access: verify the current session user email matches `joepsycho@shopinsane.com` or `rajan@shopinsane.com`.
-  - [ ] Render a form to Add New Products (name, category, price, stock, description, image URL).
-  - [ ] Display Sales Metrics: Total Sales Revenue, Total Units Sold, remaining stock list of all 22 products, and identification of the most popular item.
-  - [ ] Render an Order pipeline console to:
+  - [x] Setup the `/admin` dashboard path.
+  - [x] Lock route access: verify the current session user email matches `joepsycho@shopinsane.com` or `rajan@shopinsane.com`.
+  - [x] Render a form to Add New Products (name, category, price, stock, description, image URL).
+  - [x] Display Sales Metrics: Total Sales Revenue, Total Units Sold, remaining stock list of all 22 products, and identification of the most popular item.
+  - [x] Render an Order pipeline console to:
     - Update order statuses (`Ordered` -> `Shipped` -> `Out for Delivery` -> `Delivered`).
     - Input carrier names (e.g. DHL/FedEx) and assign tracking codes.
 - **Success Criteria:**
