@@ -44,24 +44,24 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-950 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-canvas-mist p-4">
       <motion.div
         initial={{ opacity: 0, y: 20, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
         className="w-full max-w-md"
       >
-        <Card className="border-neutral-800 bg-neutral-900/50 backdrop-blur-xl">
+        <Card className="border-faint-border bg-pure-white shadow-sm">
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Welcome Back</CardTitle>
-            <CardDescription className="text-center">
+            <CardTitle className="text-2xl text-center font-gt-standard font-semibold text-ink-black">Welcome Back</CardTitle>
+            <CardDescription className="text-center font-gt-standard">
               Sign in to your premium account.
             </CardDescription>
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent className="space-y-4">
               {serverError && (
-                <div className="p-3 text-sm text-semantic-error bg-semantic-error/10 border border-semantic-error/20 rounded-md">
+                <div className="p-3 text-sm text-semantic-error bg-semantic-error/10 border border-semantic-error/20 rounded-md font-gt-standard">
                   {serverError}
                 </div>
               )}
@@ -83,12 +83,12 @@ export default function LoginPage() {
               />
             </CardContent>
             <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" isLoading={isSubmitting}>
+              <Button type="submit" className="w-full rounded-pills bg-shop-violet text-pure-white hover:opacity-90 transition-opacity" isLoading={isSubmitting}>
                 Sign In
               </Button>
-              <div className="text-sm text-neutral-400 text-center">
+              <div className="text-sm text-muted-gray text-center font-gt-standard">
                 Don&apos;t have an account?{' '}
-                <Link href="/register" className="text-primary-400 hover:text-primary-300 transition-colors">
+                <Link href="/register" className="text-shop-violet hover:underline transition-colors font-medium">
                   Create one
                 </Link>
               </div>

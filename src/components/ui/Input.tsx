@@ -18,8 +18,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <label
             htmlFor={inputId}
             className={cn(
-              "text-sm font-medium transition-colors duration-200",
-              error ? "text-semantic-error" : "text-neutral-300 group-focus-within:text-white"
+              "text-sm font-medium font-gt-standard transition-colors duration-200",
+              error ? "text-semantic-error" : "text-ink-black"
             )}
           >
             {label}
@@ -29,18 +29,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           type={type}
           className={cn(
-            "flex w-full rounded-lg bg-neutral-900 border text-neutral-100 placeholder:text-neutral-500 transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 hover:border-neutral-700 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex w-full rounded-lg bg-pure-white border text-ink-black placeholder:text-muted-gray transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-pure-white hover:border-cool-stone disabled:cursor-not-allowed disabled:opacity-50",
             error
-              ? "border-semantic-error/50 focus-visible:ring-semantic-error/50 focus-visible:border-semantic-error"
-              : "border-neutral-800 focus-visible:ring-primary-500/50 focus-visible:border-neutral-700",
-            "h-10 px-4 text-base", // Default MD size
+              ? "border-semantic-error/50 focus-visible:ring-semantic-error/40 focus-visible:border-semantic-error"
+              : "border-faint-border focus-visible:ring-shop-violet/40 focus-visible:border-shop-violet",
+            "h-10 px-4 text-base font-gt-standard",
             className
           )}
           aria-invalid={!!error}
           ref={ref}
           {...props}
         />
-        {error && <span className="text-xs text-semantic-error opacity-90">{error}</span>}
+        {error && <span className="text-xs text-semantic-error font-gt-standard opacity-90">{error}</span>}
       </div>
     )
   }

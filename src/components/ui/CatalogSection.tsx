@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Search, ChevronRight, Hash } from 'lucide-react'
 import { SEEDED_PRODUCTS, SEEDED_CATEGORIES, Product } from '@/lib/api/mockData'
 import { ProductCard } from './ProductCard'
@@ -13,8 +13,14 @@ interface CatalogSectionProps {
 export function CatalogSection({ initialProducts = [] }: CatalogSectionProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState<string | null>(null) // null = 'All'
+  const [customProducts, setCustomProducts] = useState<any[]>([])
 
-  // Merge database products with seeded products to guarantee all 20 are present
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem('shopinsane_custom_products') || '[]')
+    setCustomProducts(stored)
+  }, [])
+
+  // Merge database products with seeded products and custom products to guarantee all are present
   const allProducts = useMemo(() => {
     const dbMapped = initialProducts.map((p) => ({
       id: p.id,
@@ -34,11 +40,13 @@ export function CatalogSection({ initialProducts = [] }: CatalogSectionProps) {
     
     // Add seeded products first
     SEEDED_PRODUCTS.forEach((p) => productMap.set(p.id, p))
+    // Add custom products
+    customProducts.forEach((p) => productMap.set(p.id, p))
     // Overwrite/append database products
     dbMapped.forEach((p) => productMap.set(p.id, p))
 
     return Array.from(productMap.values())
-  }, [initialProducts])
+  }, [initialProducts, customProducts])
 
   // Filter products by category and search query
   const filteredProducts = useMemo(() => {
