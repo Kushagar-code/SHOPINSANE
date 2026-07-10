@@ -23,8 +23,9 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { SEEDED_PRODUCTS, SEEDED_CATEGORIES } from '@/lib/api/mockData'
-import { createClient } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
+
+import { getAdminSession } from './actions'
 
 export default function AdminPage() {
   const router = useRouter()
@@ -52,38 +53,21 @@ export default function AdminPage() {
   const [orderCarrierInput, setOrderCarrierInput] = useState<Record<string, string>>({})
   const [orderTrackingInput, setOrderTrackingInput] = useState<Record<string, string>>({})
 
-  const supabase = useMemo(() => createClient(), [])
-
   useEffect(() => {
     setMounted(true)
 
     async function checkAuth() {
-      // 1. Check mock session cookie first
-      const cookies = document.cookie.split('; ')
-      const mockSession = cookies.find(row => row.startsWith('shopinsane_mock_session='))
-      const mockEmail = mockSession ? decodeURIComponent(mockSession.split('=')[1]) : ''
-
-      if (mockEmail === 'joepsycho@shopinsane.com' || mockEmail === 'rajan@shopinsane.com') {
-        setIsAdmin(true)
-        setAdminEmail(mockEmail)
-        setLoading(false)
-        return
-      }
-
-      // 2. Check Supabase user fallback
       try {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (user && (user.email === 'joepsycho@shopinsane.com' || user.email === 'rajan@shopinsane.com')) {
+        const session = await getAdminSession()
+        if (session.isAdmin) {
           setIsAdmin(true)
-          setAdminEmail(user.email)
-          setLoading(false)
-          return
+          setAdminEmail(session.email || 'joepsycho@shopinsane.com')
+        } else {
+          setIsAdmin(false)
         }
       } catch (err) {
-        // Ignored
+        setIsAdmin(false)
       }
-
-      setIsAdmin(false)
       setLoading(false)
     }
 
@@ -97,7 +81,7 @@ export default function AdminPage() {
     setCustomProducts(storedCustom)
     setStockAdjustments(storedAdjustments)
     setOrders(storedOrders)
-  }, [supabase])
+  }, [])
 
   // Catalog products (seeded + custom additions)
   const allProducts = useMemo(() => {
