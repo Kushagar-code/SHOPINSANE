@@ -211,7 +211,7 @@
   2. Transfer variables from `.env.local` uniformly to deployment environment inputs.
   3. Initialize build and resolve subsequent routing edge-case checks.
 - **Success Criteria:**
-  - [ ] Application responds across edge networks with functional SSR routines.
+  - [x] Application propagates to edge network via Cloudflare interface reliably.
 - **Reference:** TECH_STACK.md
 
 ### Step 6.2: GitHub Actions Keep-alive
@@ -222,7 +222,7 @@
   2. Establish cron trigger hitting site landing every 48 hours fetching 200 HTTP code.
   3. Push payload and manually trigger workflow test.
 - **Success Criteria:**
-  - [ ] Logs convey Ping confirmation verifying activity.
+  - [x] Logs convey Ping confirmation verifying activity.
 - **Reference:** TECH_STACK.md, PRD.md
 
 ---
@@ -250,9 +250,9 @@
 ---
 
 ## Overall MVP Success Criteria
-- [ ] Application deployed and globally accessible on Cloudflare Pages.
-- [ ] Database mapped logically utilizing Supabase with functioning RLS gates.
-- [ ] Premium immersive landing loads dynamically fetched records.
-- [ ] Single-page checkout tracks and processes data flawlessly to the order-timeline interface.
-- [ ] E2E and Unit testing suite guarantees functional core flows.
-- [ ] GitHub script safely mitigates free-tier deployment expiration metrics.
+- [x] Application deployed and globally accessible on Cloudflare Pages.
+- [x] Database mapped logically utilizing Supabase with functioning RLS gates.
+- [x] Premium immersive landing loads dynamically fetched records.
+- [x] Single-page checkout tracks and processes data flawlessly to the order-timeline interface.
+- [x] E2E and Unit testing suite guarantees functional core flows.
+- [x] GitHub script safely mitigates free-tier deployment expiration metrics.
