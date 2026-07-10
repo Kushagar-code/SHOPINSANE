@@ -634,3 +634,27 @@ The project implementation timeline is structured into four sequential, checkabl
 - **Cross-References:**
   - `PRD.md` -> Section: "5. Features & Requirements -> Feature 5: Multi-Factor Free-Tier Access Control"
   - `APP_FLOW.md` -> Section: "5. Decision Points (IF-THEN Logic)"
+
+---
+
+### Phase 5: UI Polish & Access Control Security
+
+#### Step 5.1: Scarcity Triggers & Dynamic Stock
+- **Goal Statement**: Implement scarcity visual cues and dynamic inventory checks for products on grids and detail cards.
+- **Task Checklist**:
+  - [x] Integrate scarcity badges next to prices if dynamic remaining stock drops to 1, 2, 3, or 4 items.
+  - [x] Subtract local orders dynamically from initial stock count in client-side states.
+  - [x] Configure Out of Stock status changes and disable cart additions if remaining stock hits 0.
+
+#### Step 5.2: Role-Based Access & Edge Redirections
+- **Goal Statement**: Restrict admin navigation components and block access via Next.js Middleware.
+- **Task Checklist**:
+  - [x] Query user session roles on Sidebar Nav Rail mount to dynamically filter and hide the Admin Link for standard users.
+  - [x] Build edge-compatible redirect middleware in `src/middleware.ts` to block standard requests targeting `/admin` paths.
+
+#### Step 5.3: Legal Pages & Footer Navigation
+- **Goal Statement**: Complete legal routing policy layouts and links.
+- **Task Checklist**:
+  - [x] Setup terms of service page at `/terms`, privacy policy page at `/privacy`, and refund policy page at `/refund`.
+  - [x] Link terms, privacy, and refund footer links to active route paths.
+
