@@ -26,10 +26,25 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       lg: "text-lg px-6 py-3 h-12",
     };
 
-    const Comp = asChild ? Slot : "button"
+    if (asChild) {
+      return (
+        <Slot
+          ref={ref}
+          className={cn(
+            "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 relative overflow-hidden group",
+            variants[variant],
+            sizes[size],
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </Slot>
+      );
+    }
 
     return (
-      <Comp
+      <button
         ref={ref}
         disabled={isLoading || props.disabled}
         className={cn(
@@ -50,7 +65,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </span>
         )}
         <span className={cn(isLoading && "opacity-0")}>{children}</span>
-      </Comp>
+      </button>
     );
   }
 );
