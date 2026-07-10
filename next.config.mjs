@@ -6,6 +6,19 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+    ],
+  },
   webpack: (config, { nextRuntime }) => {
     if (nextRuntime === 'edge') {
       config.externals.push(({ request }, callback) => {
