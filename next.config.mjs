@@ -6,14 +6,14 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: (config, { webpack, nextRuntime }) => {
+  webpack: (config, { nextRuntime }) => {
     if (nextRuntime === 'edge') {
-      config.plugins.push(
-        new webpack.NormalModuleReplacementPlugin(
-          /^async_hooks$/,
-          'node:async_hooks'
-        )
-      );
+      config.externals.push(({ request }, callback) => {
+        if (request === 'async_hooks') {
+          return callback(null, 'module node:async_hooks');
+        }
+        callback();
+      });
     }
     return config;
   },
