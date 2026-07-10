@@ -208,6 +208,7 @@ export default function OrderPage() {
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 bg-canvas-mist rounded-lg overflow-hidden relative shrink-0">
                         {item.image_url ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
                           <img src={item.image_url} alt={item.product_name} className="object-cover w-full h-full" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-xs text-muted-gray font-gt-standard">No Img</div>

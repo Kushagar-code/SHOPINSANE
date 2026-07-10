@@ -3,7 +3,7 @@ export const runtime = 'edge'
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { Star, ShoppingCart, ArrowLeft, Send, Check } from 'lucide-react'
+import { Star, ShoppingCart, ArrowLeft, Send, Check, Clock } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
@@ -64,6 +64,39 @@ export default function ProductDetailPage() {
     const all = [...SEEDED_PRODUCTS, ...customProducts]
     return all.find((p) => p.slug === slug)
   }, [slug])
+
+  const [remainingStock, setRemainingStock] = useState<number>(product ? (product.stock !== undefined ? product.stock : 50) : 50)
+
+  useEffect(() => {
+    if (!product) return
+    const calculateStock = () => {
+      const stockAdjustments = JSON.parse(localStorage.getItem('shopinsane_stock_adjustments') || '{}')
+      const placedOrders = JSON.parse(localStorage.getItem('shopinsane_orders') || '[]')
+      
+      const unitsSoldInOrders = placedOrders
+        .filter((o: any) => o.status !== 'Cancelled')
+        .flatMap((o: any) => o.items || [])
+        .filter((oi: any) => oi.product_id === product.id)
+        .reduce((sum: number, oi: any) => sum + oi.quantity, 0)
+
+      const initialStock = product.stock !== undefined ? product.stock : 50
+      setRemainingStock((initialStock + (stockAdjustments[product.id] || 0)) - unitsSoldInOrders)
+    }
+
+    calculateStock()
+
+    window.addEventListener('storage', calculateStock)
+    window.addEventListener('cart-updated', calculateStock)
+    window.addEventListener('order-placed', calculateStock)
+    window.addEventListener('stock-changed', calculateStock)
+
+    return () => {
+      window.removeEventListener('storage', calculateStock)
+      window.removeEventListener('cart-updated', calculateStock)
+      window.removeEventListener('order-placed', calculateStock)
+      window.removeEventListener('stock-changed', calculateStock)
+    }
+  }, [product])
 
   // Related items list
   const relatedProducts = useMemo(() => {
@@ -141,6 +174,8 @@ export default function ProductDetailPage() {
     setTimeout(() => setFormSubmitted(false), 3000)
   }
 
+  const isOutOfStock = remainingStock <= 0
+
   return (
     <div className="bg-canvas-mist min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-[1200px] mx-auto space-y-16">
@@ -212,13 +247,24 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Title & Price */}
-              <h1 className="text-3xl sm:text-4xl font-gt-standard font-semibold text-ink-black tracking-tight leading-none">
+              <h1 className="text-3xl sm:text-4xl font-gt-standard font-semibold text-ink-black tracking-tight leading-none flex items-center flex-wrap gap-3">
                 {product.name}
               </h1>
-              <div className="flex items-baseline gap-3 pt-2">
-                <span className="text-2xl font-bold text-ink-black">${product.price.toLocaleString()}</span>
-                {product.original_price && (
-                  <span className="text-base text-muted-gray line-through">${product.original_price.toLocaleString()}</span>
+              <div className="flex items-center gap-4 flex-wrap pt-2">
+                <div className="flex items-baseline gap-3">
+                  <span className="text-2xl font-bold text-ink-black">${product.price.toLocaleString()}</span>
+                  {product.original_price && (
+                    <span className="text-base text-muted-gray line-through">${product.original_price.toLocaleString()}</span>
+                  )}
+                </div>
+
+                {remainingStock > 0 && remainingStock < 5 && (
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#fff7ed] border border-[#ffedd5] w-fit">
+                    <Clock className="w-3.5 h-3.5 text-[#c2410c] animate-pulse" />
+                    <span className="text-[11px] font-medium text-[#c2410c] font-gt-standard tracking-tight">
+                      Hurry! Only {remainingStock} left
+                    </span>
+                  </div>
                 )}
               </div>
             </div>
@@ -253,6 +299,7 @@ export default function ProductDetailPage() {
             {/* Add to Cart button */}
             <Button
               onClick={() => {
+                if (isOutOfStock) return
                 addItem({
                   id: product.id,
                   category_id: product.category_id,
@@ -261,16 +308,25 @@ export default function ProductDetailPage() {
                   description: product.description,
                   price: product.price,
                   image_url: product.image_url,
-                  inventory_count: product.stock,
+                  inventory_count: remainingStock,
                   tags: product.tags,
                   created_at: new Date().toISOString()
                 })
+                window.dispatchEvent(new Event('cart-updated'))
               }}
-              className="w-full h-12 rounded-pills bg-shop-violet text-pure-white text-base font-gt-standard font-medium relative overflow-hidden group/btn transition-transform hover:opacity-95"
+              disabled={isOutOfStock}
+              className={cn(
+                "w-full h-12 rounded-pills text-base font-gt-standard font-medium relative overflow-hidden group/btn transition-all duration-300 shadow-sm shadow-shop-violet/10 hover:shadow-lg-2 hover:shadow-shop-violet/20",
+                isOutOfStock 
+                  ? "bg-canvas-mist text-muted-gray border-faint-border cursor-not-allowed" 
+                  : "bg-shop-violet text-pure-white hover:bg-shop-violet/90"
+              )}
             >
-              <span className="absolute inset-0 bg-pure-white/10 translate-y-[100%] group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
+              {!isOutOfStock && (
+                <span className="absolute inset-0 bg-pure-white/10 translate-y-[100%] group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
+              )}
               <ShoppingCart className="w-5 h-5 mr-2" />
-              Add to Cart
+              {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
             </Button>
           </div>
         </div>

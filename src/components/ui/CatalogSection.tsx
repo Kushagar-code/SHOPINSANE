@@ -32,7 +32,9 @@ export function CatalogSection({ initialProducts = [] }: CatalogSectionProps) {
       image_url: p.image_url,
       tags: p.tags || [],
       rating: p.rating || 4.7,
-      review_count: p.review_count || 120
+      review_count: p.review_count || 120,
+      stock: p.stock !== undefined ? p.stock : 50,
+      units_sold: p.units_sold || 0
     }))
 
     // Use a Map to de-duplicate by ID, prioritizing database products

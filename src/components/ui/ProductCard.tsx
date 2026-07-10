@@ -2,11 +2,12 @@
 
 import { motion } from 'framer-motion'
 import { Button } from './Button'
-import { ShoppingCart, Star } from 'lucide-react'
+import { ShoppingCart, Star, Clock } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCartStore } from '@/store/cartStore'
 import { cn } from '@/lib/utils'
+import { useEffect, useState } from 'react'
 
 export interface ProductCardProps {
   product: {
@@ -20,16 +21,50 @@ export interface ProductCardProps {
     tags?: string[] | null
     rating?: number
     review_count?: number
+    stock?: number
+    units_sold?: number
   }
   index?: number
 }
 
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const addItem = useCartStore((state) => state.addItem)
-  
-  // Mapped rating fallbacks if DB products don't have them
   const rating = product.rating || 4.7
   const reviewCount = product.review_count || 120
+
+  const [remainingStock, setRemainingStock] = useState<number>(product.stock !== undefined ? product.stock : 50)
+
+  useEffect(() => {
+    const calculateStock = () => {
+      const stockAdjustments = JSON.parse(localStorage.getItem('shopinsane_stock_adjustments') || '{}')
+      const placedOrders = JSON.parse(localStorage.getItem('shopinsane_orders') || '[]')
+      
+      const unitsSoldInOrders = placedOrders
+        .filter((o: any) => o.status !== 'Cancelled')
+        .flatMap((o: any) => o.items || [])
+        .filter((oi: any) => oi.product_id === product.id)
+        .reduce((sum: number, oi: any) => sum + oi.quantity, 0)
+
+      const initialStock = product.stock !== undefined ? product.stock : 50
+      setRemainingStock((initialStock + (stockAdjustments[product.id] || 0)) - unitsSoldInOrders)
+    }
+
+    calculateStock()
+
+    window.addEventListener('storage', calculateStock)
+    window.addEventListener('cart-updated', calculateStock)
+    window.addEventListener('order-placed', calculateStock)
+    window.addEventListener('stock-changed', calculateStock)
+
+    return () => {
+      window.removeEventListener('storage', calculateStock)
+      window.removeEventListener('cart-updated', calculateStock)
+      window.removeEventListener('order-placed', calculateStock)
+      window.removeEventListener('stock-changed', calculateStock)
+    }
+  }, [product.id, product.stock])
+
+  const isOutOfStock = remainingStock <= 0
 
   return (
     <motion.div
@@ -108,29 +143,50 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           )}
         </div>
 
-        {/* Action Button */}
-        <Button 
-          className="w-full h-10 rounded-pills text-sm font-gt-standard font-medium relative overflow-hidden group/btn" 
-          variant="secondary"
-          onClick={() => {
-            addItem({
-              id: product.id,
-              category_id: product.category_id,
-              name: product.name,
-              slug: product.slug,
-              description: product.description,
-              price: product.price,
-              image_url: product.image_url,
-              inventory_count: 50,
-              tags: product.tags || null,
-              created_at: new Date().toISOString()
-            })
-          }}
-        >
-          <span className="absolute inset-0 bg-shop-violet/10 translate-y-[100%] group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
-          <ShoppingCart className="w-4 h-4 mr-2" />
-          Add to Cart
-        </Button>
+        {/* Dynamic Scarcity Warning Badge & Add To Cart Button */}
+        <div className="space-y-3 pt-1">
+          {remainingStock > 0 && remainingStock < 5 && (
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#fff7ed] border border-[#ffedd5] w-fit">
+              <Clock className="w-3.5 h-3.5 text-[#c2410c] animate-pulse" />
+              <span className="text-[11px] font-medium text-[#c2410c] font-gt-standard tracking-tight">
+                Hurry! Only {remainingStock} left
+              </span>
+            </div>
+          )}
+
+          <Button 
+            className={cn(
+              "w-full h-10 rounded-pills text-sm font-gt-standard font-medium relative overflow-hidden group/btn transition-all duration-300 shadow-sm shadow-shop-violet/10 hover:shadow-lg-2 hover:shadow-shop-violet/20",
+              isOutOfStock 
+                ? "bg-canvas-mist text-muted-gray border-faint-border cursor-not-allowed" 
+                : "bg-shop-violet text-pure-white hover:bg-shop-violet/90"
+            )}
+            onClick={() => {
+              if (isOutOfStock) return
+              addItem({
+                id: product.id,
+                category_id: product.category_id,
+                name: product.name,
+                slug: product.slug,
+                description: product.description,
+                price: product.price,
+                image_url: product.image_url,
+                inventory_count: remainingStock,
+                tags: product.tags || null,
+                created_at: new Date().toISOString()
+              })
+              // Dispatch event to recalculate stock instantly in other components
+              window.dispatchEvent(new Event('cart-updated'))
+            }}
+            disabled={isOutOfStock}
+          >
+            {!isOutOfStock && (
+              <span className="absolute inset-0 bg-pure-white/10 translate-y-[100%] group-hover/btn:translate-y-0 transition-transform duration-300 ease-out" />
+            )}
+            <ShoppingCart className="w-4 h-4 mr-2" />
+            {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+          </Button>
+        </div>
       </div>
     </motion.div>
   )

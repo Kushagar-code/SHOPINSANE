@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import { logout } from '@/app/login/actions'
 import { UserSession } from '@/lib/api/auth'
+import { useEffect, useState } from 'react'
+import { getAdminSession } from '@/app/admin/actions'
 
 interface SidebarRailProps {
   user: UserSession | null
@@ -14,6 +16,15 @@ interface SidebarRailProps {
 
 export function SidebarRail({ user }: SidebarRailProps) {
   const pathname = usePathname()
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    async function checkAdmin() {
+      const session = await getAdminSession()
+      setIsAdmin(session.isAdmin)
+    }
+    checkAdmin()
+  }, [user])
 
   const navItems = [
     {
@@ -28,12 +39,12 @@ export function SidebarRail({ user }: SidebarRailProps) {
       icon: ShoppingBag,
       isActive: pathname === '/checkout'
     },
-    {
+    ...(isAdmin ? [{
       href: '/admin',
       label: 'Admin Panel',
       icon: Lock,
       isActive: pathname.startsWith('/admin')
-    }
+    }] : [])
   ]
 
   return (
