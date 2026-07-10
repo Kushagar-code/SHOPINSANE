@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Twitter } from "lucide-react";
+import { Globe, Mail } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -21,12 +21,12 @@ export function Footer() {
           </p>
           <div className="flex gap-4">
             <a href="#" className="h-10 w-10 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-primary-500 hover:shadow-glow-primary transition-all duration-300">
-              <Github className="h-5 w-5" />
-              <span className="sr-only">GitHub</span>
+              <Globe className="h-5 w-5" />
+              <span className="sr-only">Website</span>
             </a>
             <a href="#" className="h-10 w-10 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-primary-500 hover:shadow-glow-primary transition-all duration-300">
-              <Twitter className="h-5 w-5" />
-              <span className="sr-only">Twitter</span>
+              <Mail className="h-5 w-5" />
+              <span className="sr-only">Contact</span>
             </a>
           </div>
         </div>
