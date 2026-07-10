@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
+import { SidebarRail } from "@/components/layout/SidebarRail";
+import { AppDownloadBanner } from "@/components/layout/AppDownloadBanner";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/ui/CartDrawer";
 
@@ -19,12 +20,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <Navbar />
-        <main className="flex-1">
-          {children}
-        </main>
-        <Footer />
+      <body className={`${inter.className} min-h-screen flex flex-col bg-canvas-mist text-ink-black antialiased`}>
+        <AppDownloadBanner />
+        <div className="flex-1 flex">
+          <SidebarRail />
+          <main className="flex-1 pl-16 min-h-screen flex flex-col">
+            <div className="flex-1 flex flex-col">
+              {children}
+            </div>
+            <Footer />
+          </main>
+        </div>
         <CartDrawer />
       </body>
     </html>

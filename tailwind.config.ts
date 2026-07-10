@@ -9,6 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        'canvas-mist': '#f2f4f5',
+        'pure-white': '#ffffff',
+        'ink-black': '#000000',
+        'faint-border': '#ebebeb',
+        'muted-gray': '#787574',
+        'cool-stone': '#cccccc',
+        'warm-fog': '#acb0aa',
+        'shop-violet': '#5433eb',
+        'violet-wash': '#c0b5f3',
+        'slate-ink': '#332f2d',
+        'ash-veil': '#665a54',
         primary: {
           50: '#F3E8FF',
           100: '#E9D5FF',
@@ -44,10 +55,24 @@ const config: Config = {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         mono: ['Geist Mono', 'monospace'],
+        'gt-standard': ["GT Standard", "Inter", "system-ui", "-apple-system", "sans-serif"],
+        'shopify-sans': ["Shopify Sans", "Inter", "sans-serif"],
+      },
+      borderRadius: {
+        'cards': '28px',
+        'chips': '9999px',
+        'pills': '20px',
+        'inputs': '9999px',
+        'search': '9999px',
+        'buttons': '9999px',
       },
       boxShadow: {
         'glow-primary': '0 0 15px 0px rgba(147, 51, 234, 0.4)',
         'glow-intense': '0 0 25px 5px rgba(147, 51, 234, 0.6)',
+        'shadow-sm': 'rgba(0, 0, 0, 0.06) 0px 2px 8px 0px',
+        'shadow-sm-2': 'rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px',
+        'shadow-lg': 'rgba(0, 0, 0, 0.12) 0px 4px 24px 0px',
+        'shadow-lg-2': 'rgba(69, 36, 219, 0.34) 0px 4px 24px 0px',
       },
       animation: {
         "fade-in": "fadeIn 500ms ease-out forwards",

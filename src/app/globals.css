@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    --background: #020617; /* neutral-950 */
-    --foreground: #F8FAFC; /* neutral-50 */
+    --background: #f2f4f5; /* canvas-mist */
+    --foreground: #000000; /* ink-black */
   }
 
   body {
@@ -19,12 +19,12 @@
   /* Smooth Focus Outlines */
   *:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px #020617, 0 0 0 4px #9333EA; /* neutral-950, primary-500 */
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #5433eb; /* white, shop-violet */
   }
 
   ::selection {
-    background-color: rgba(147, 51, 234, 0.3); /* primary-500/30 */
-    color: #ffffff;
+    background-color: rgba(84, 51, 235, 0.2); /* shop-violet/20 */
+    color: #000000;
   }
 }
 
