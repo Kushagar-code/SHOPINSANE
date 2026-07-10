@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+export const runtime = 'edge';
 import { useCartStore } from '@/store/cartStore'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/Card'

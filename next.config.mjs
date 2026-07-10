@@ -10,7 +10,7 @@ const nextConfig = {
     if (nextRuntime === 'edge') {
       config.resolve.alias = {
         ...config.resolve.alias,
-        'async_hooks': false,
+        'async_hooks': 'node:async_hooks',
       }
     }
     return config

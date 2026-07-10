@@ -4,5 +4,5 @@ compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
 
 [vars]
-NEXT_PUBLIC_SUPABASE_URL = ""
-NEXT_PUBLIC_SUPABASE_ANON_KEY = ""
+NEXT_PUBLIC_SUPABASE_URL = "https://vpbrguytkaelchyxmywf.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "sb_publishable_IxbBo8II5_jNRn_sxlwQiA_ZnQPrS2S"

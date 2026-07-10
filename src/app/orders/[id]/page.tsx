@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card'

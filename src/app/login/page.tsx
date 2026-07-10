@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+export const runtime = 'edge';
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
