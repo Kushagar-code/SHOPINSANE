@@ -3,8 +3,6 @@ import { getProducts } from '@/lib/api/products'
 import { ProductCard } from '@/components/ui/ProductCard'
 import { Suspense } from 'react'
 
-// Revalidate cache every hour if not using on-demand revalidation
-export const revalidate = 3600
 
 export default async function Home() {
   return (
