@@ -131,11 +131,25 @@ Root (/) - Product Catalog
 
 ### 4.5 Visual Order Tracking (`/orders/[id]`)
 - **Access Level**: Private (tied to session) / Obfuscated Public.
-- **Purpose**: Displays dynamic visual order tracking timeline.
-- **Key Elements**: Timeline stepper (Aceternity styling), order summary, receipt.
+- **Purpose**: Displays dynamic visual order tracking timeline with carrier details.
+- **Key Elements**: Timeline stepper, carrier details block (Carrier name, Tracking number, Estimated delivery date), order summary, receipt.
 - **Actions**:
   - Continue Shopping → Navigates to `/`.
 - **State Variants**: Loading (fetching order), 404 (Invalid ID).
+
+### 4.6 Admin Sales & Inventory Console (`/admin`)
+- **Access Level**: Restricted to admin roles (`joepsycho@shopinsane.com`, `rajan@shopinsane.com`).
+- **Purpose**: Manage product additions, track sales, stock inventory, and update order statuses.
+- **Key Elements**:
+  - Add Product Form (fields: name, price, stock, description, image).
+  - Sales Analytics Panel (Total Sales revenue, units sold, order count).
+  - Inventory Metrics (Current stock level of all 22 products).
+  - Popular Products Table (Ranking products by units sold).
+  - Order Pipeline Stepper (Manually transition user tracking status and assign delivery carrier/tracking code).
+- **Actions**:
+  - Add New Product → Updates catalog database.
+  - Advance status → Changes tracking state of an active order.
+- **State Variants**: Unauthenticated (renders access denied page or redirects to `/login`).
 
 ## 5. Decision Points (IF-THEN Logic)
 - **Cart Access**: IF user clicks Add to Cart THEN increase Zustand quantity AND slide out drawer.

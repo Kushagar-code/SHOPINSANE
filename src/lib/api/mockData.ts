@@ -11,6 +11,8 @@ export interface Product {
   rating: number;
   review_count: number;
   description: string;
+  stock: number;         // Remaining stock quantity
+  units_sold: number;    // Sales tracking metric
 }
 
 export interface Category {
@@ -38,13 +40,14 @@ export const SEEDED_PRODUCTS: Product[] = [
     original_price: 1299.99,
     image_url: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=60",
     thumbnails: [
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&auto=format&fit=crop&q=60"
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=60"
     ],
     tags: ["flagship", "5g", "premium"],
     rating: 4.8,
     review_count: 142,
-    description: "Experience ultimate computing power in your palm. Grade-5 titanium chassis paired with dynamic high-refresh displays."
+    description: "Experience ultimate computing power in your palm. Grade-5 titanium chassis paired with dynamic high-refresh displays.",
+    stock: 25,
+    units_sold: 48
   },
   {
     id: "prod-s2",
@@ -54,13 +57,14 @@ export const SEEDED_PRODUCTS: Product[] = [
     price: 1299.99,
     image_url: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&auto=format&fit=crop&q=60",
     thumbnails: [
-      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=600&auto=format&fit=crop&q=60"
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&auto=format&fit=crop&q=60"
     ],
     tags: ["flagship", "stylus", "android"],
     rating: 4.9,
     review_count: 98,
-    description: "Next-generation generative AI processing combined with an integrated S-Pen and raw 200MP camera matrices."
+    description: "Next-generation generative AI processing combined with an integrated S-Pen and raw 200MP camera matrices.",
+    stock: 18,
+    units_sold: 62
   },
   {
     id: "prod-s3",
@@ -76,7 +80,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["midrange", "camera", "android"],
     rating: 4.5,
     review_count: 210,
-    description: "Pure Android software environment featuring class-leading low-light camera processing and machine learning tools."
+    description: "Pure Android software environment featuring class-leading low-light camera processing and machine learning tools.",
+    stock: 50,
+    units_sold: 110
   },
   {
     id: "prod-s4",
@@ -91,7 +97,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["design", "unique", "android"],
     rating: 4.6,
     review_count: 85,
-    description: "Symmetrical design architecture showing an elegant, interactive transparent rear glyph interface."
+    description: "Symmetrical design architecture showing an elegant, interactive transparent rear glyph interface.",
+    stock: 32,
+    units_sold: 37
   },
   {
     id: "prod-s5",
@@ -106,7 +114,26 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["foldable", "premium"],
     rating: 4.4,
     review_count: 36,
-    description: "Multi-tasking powerhouse featuring an ultra-thin folding glass panel that transforms from handset to tablet format."
+    description: "Multi-tasking powerhouse featuring an ultra-thin folding glass panel that transforms from handset to tablet format.",
+    stock: 10,
+    units_sold: 14
+  },
+  {
+    id: "prod-s6",
+    category_id: "cat-1",
+    name: "OnePlus 12 Pro",
+    slug: "oneplus-12-pro",
+    price: 899.99,
+    image_url: "https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["flagship", "fast-charge", "android"],
+    rating: 4.7,
+    review_count: 53,
+    description: "Smooth display panels matching 100W wired quick charging elements for robust mobile power cycles.",
+    stock: 40,
+    units_sold: 29
   },
 
   // ================= CAT-2: AUDIO =================
@@ -124,7 +151,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["wireless", "anc", "in-ear"],
     rating: 4.7,
     review_count: 312,
-    description: "Double the active noise cancellation capability paired with adaptive audio algorithms and sweat resistance configurations."
+    description: "Double the active noise cancellation capability paired with adaptive audio algorithms and sweat resistance configurations.",
+    stock: 75,
+    units_sold: 142
   },
   {
     id: "prod-a2",
@@ -139,7 +168,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["wireless", "anc", "over-ear"],
     rating: 4.8,
     review_count: 175,
-    description: "High-fidelity custom audio drivers embedded in pristine, lightweight aramid housings with dynamic head tracking."
+    description: "High-fidelity custom audio drivers embedded in pristine, lightweight aramid housings with dynamic head tracking.",
+    stock: 30,
+    units_sold: 84
   },
   {
     id: "prod-a3",
@@ -154,7 +185,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["workout", "wireless"],
     rating: 4.3,
     review_count: 94,
-    description: "Flexible, secure-fit ear hooks optimized for running and intense training regimes. Rain and sweatproof IPX7 rating."
+    description: "Flexible, secure-fit ear hooks optimized for running and intense training regimes. Rain and sweatproof IPX7 rating.",
+    stock: 60,
+    units_sold: 45
   },
   {
     id: "prod-a4",
@@ -169,7 +202,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["anc", "in-ear"],
     rating: 4.7,
     review_count: 220,
-    description: "Unprecedented clarity with dual processor elements driving active noise reduction profiles in dense environments."
+    description: "Unprecedented clarity with dual processor elements driving active noise reduction profiles in dense environments.",
+    stock: 45,
+    units_sold: 99
   },
   {
     id: "prod-a5",
@@ -184,7 +219,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["bass", "budget"],
     rating: 4.2,
     review_count: 140,
-    description: "Enhanced low-frequency feedback and solid punch performance designed for bass-heavy audio genres."
+    description: "Enhanced low-frequency feedback and solid punch performance designed for bass-heavy audio genres.",
+    stock: 80,
+    units_sold: 115
   },
 
   // ================= CAT-3: POWER & CABLES =================
@@ -202,7 +239,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["gan", "fast-charge"],
     rating: 4.8,
     review_count: 512,
-    description: "Gallium Nitride (GaN) semiconductor architecture supplying ultra-fast charging matrices in a micro pocket format."
+    description: "Gallium Nitride (GaN) semiconductor architecture supplying ultra-fast charging matrices in a micro pocket format.",
+    stock: 120,
+    units_sold: 340
   },
   {
     id: "prod-p2",
@@ -217,7 +256,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["magsafe", "wireless"],
     rating: 4.6,
     review_count: 184,
-    description: "Snaps magnetically into alignment with modern smartphone frames for a wireless 15W battery pack boost."
+    description: "Snaps magnetically into alignment with modern smartphone frames for a wireless 15W battery pack boost.",
+    stock: 55,
+    units_sold: 92
   },
   {
     id: "prod-p3",
@@ -232,7 +273,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["cable", "durable"],
     rating: 4.9,
     review_count: 672,
-    description: "Heavy-duty double-braided ballistic nylon exterior sheath protecting high-speed 100W PD transmission lines."
+    description: "Heavy-duty double-braided ballistic nylon exterior sheath protecting high-speed 100W PD transmission lines.",
+    stock: 200,
+    units_sold: 580
   },
   {
     id: "prod-p4",
@@ -247,7 +290,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["desk", "wireless"],
     rating: 4.7,
     review_count: 86,
-    description: "Multi-outlet power hub containing dedicated magnetic stands, secondary USB-C ports, and clean organization frames."
+    description: "Multi-outlet power hub containing dedicated magnetic stands, secondary USB-C ports, and clean organization frames.",
+    stock: 15,
+    units_sold: 23
   },
   {
     id: "prod-p5",
@@ -262,7 +307,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["car", "wireless"],
     rating: 4.4,
     review_count: 115,
-    description: "Vent-secured smartphone cradle featuring auto-clamping motor locks and continuous 15W Qi power delivery."
+    description: "Vent-secured smartphone cradle featuring auto-clamping motor locks and continuous 15W Qi power delivery.",
+    stock: 85,
+    units_sold: 64
   },
 
   // ================= CAT-4: ACCESSORIES =================
@@ -280,7 +327,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["case", "slim"],
     rating: 4.8,
     review_count: 242,
-    description: "Ultra-thin, bulletproof aerospace material construction offering military-grade surface drop armor shielding."
+    description: "Ultra-thin, bulletproof aerospace material construction offering military-grade surface drop armor shielding.",
+    stock: 90,
+    units_sold: 180
   },
   {
     id: "prod-c2",
@@ -295,7 +344,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["protection", "glass"],
     rating: 4.7,
     review_count: 830,
-    description: "9H hardness index glass shields keeping original display clarity while preventing localized face impacts."
+    description: "9H hardness index glass shields keeping original display clarity while preventing localized face impacts.",
+    stock: 150,
+    units_sold: 450
   },
   {
     id: "prod-c3",
@@ -310,7 +361,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["grip", "magsafe"],
     rating: 4.5,
     review_count: 198,
-    description: "Low-profile collapsible ring adapter providing absolute orientation handles and quick tabletop stand positions."
+    description: "Low-profile collapsible ring adapter providing absolute orientation handles and quick tabletop stand positions.",
+    stock: 110,
+    units_sold: 76
   },
   {
     id: "prod-c4",
@@ -325,7 +378,9 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["video", "creator"],
     rating: 4.6,
     review_count: 57,
-    description: "3-axis active stabilization motor deck equipped with facial AI tracking profiles for cinematic mobile tracking."
+    description: "3-axis active stabilization motor deck equipped with facial AI tracking profiles for cinematic mobile tracking.",
+    stock: 22,
+    units_sold: 34
   },
   {
     id: "prod-c5",
@@ -340,7 +395,26 @@ export const SEEDED_PRODUCTS: Product[] = [
     tags: ["tracker", "bluetooth"],
     rating: 4.3,
     review_count: 320,
-    description: "Locate hardware attachments in seconds via localized Bluetooth networks and ultra-wideband audio cues."
+    description: "Locate hardware attachments in seconds via localized Bluetooth networks and ultra-wideband audio cues.",
+    stock: 130,
+    units_sold: 215
+  },
+  {
+    id: "prod-c6",
+    category_id: "cat-4",
+    name: "Leather Wallet Stand",
+    slug: "leather-wallet-stand",
+    price: 49.99,
+    image_url: "https://images.unsplash.com/photo-1622445261812-70b135c3a44d?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1622445261812-70b135c3a44d?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["leather", "magsafe", "accessory"],
+    rating: 4.5,
+    review_count: 78,
+    description: "Premium leather card holder with integrated kickstand that aligns magnetically to phone surfaces.",
+    stock: 45,
+    units_sold: 112
   }
 ];
 

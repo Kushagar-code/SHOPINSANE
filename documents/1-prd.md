@@ -76,6 +76,23 @@ Ambitious indie builders and digital creators face massive friction when trying 
     * [ ] Valid active tokens must seamlessly persist across page reloads via client-side cookie storage.
 * **Success Metric:** Complete block of unauthenticated user access to order histories.
 
+#### Feature 6: Admin Product Management & Real-Time Sales Metrics
+* **Description:** Back-office dashboard enabling administrative profiles to create new catalog assets and monitor stock levels, units sold, total revenue, and ranking of most popular products.
+* **User Story:** As a store administrator, I want to add new products to the catalog and view real-time sales performance metrics so that I can manage store stock levels effectively.
+* **Acceptance Criteria:**
+    * [ ] Provide a secure form to add new products with input validation (name, price, stock, description, image URL).
+    * [ ] Display a metrics dashboard showing Total Revenue, Total Units Sold, Remaining Inventory count, and a ranking list of most popular products.
+    * [ ] Bypassing admin authentication must block loading of any metrics database stream.
+* **Success Metric:** Sub-second rendering of sales metrics and catalog additions without database downtime.
+
+#### Feature 7: Carrier Shipping & Detailed Order Tracking
+* **Description:** High-fidelity buyer timeline indicating real-time order states (Ordered -> Shipped -> Out for Delivery -> Delivered) containing dynamic carrier details (DHL, FedEx, UPS) and generated tracking numbers.
+* **User Story:** As a customer, I want to view my shipping tracking updates, carrier name, and tracking numbers so that I know exactly when my mobile gear will arrive.
+* **Acceptance Criteria:**
+    * [ ] Display carrier identification details (e.g., DHL/FedEx) and unique tracking strings on the order confirmation timeline layout.
+    * [ ] The timeline must render milestone updates in response to state modifications made by the administrator.
+* **Success Metric:** Accurate state changes mapped synchronously to visual timeline states.
+
 ### P1 — Should Have
 * Debounced global header search parsing data streams in real time.
 * Advanced address record adjustments within user dashboard accounts.
