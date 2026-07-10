@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 import { z } from 'zod'
 
 const authSchema = z.object({
@@ -17,6 +18,22 @@ export async function login(formData: FormData) {
   const parsed = authSchema.safeParse({ email, password })
   if (!parsed.success) {
     return { error: 'Invalid email or password format.' }
+  }
+
+  // Intercept Admin credentials for mock auth scope
+  if (
+    (email === 'joepsycho@shopinsane.com' || email === 'rajan@shopinsane.com') &&
+    password === 'AdminSecure2026!'
+  ) {
+    cookies().set('shopinsane_mock_session', email, { 
+      path: '/', 
+      httpOnly: true, 
+      secure: process.env.NODE_ENV === 'production', 
+      maxAge: 60 * 60 * 24 
+    })
+    revalidatePath('/', 'layout')
+    redirect('/')
+    return
   }
 
   const supabase = createClient()
@@ -59,6 +76,7 @@ export async function signup(formData: FormData) {
 export async function logout() {
   const supabase = createClient()
   await supabase.auth.signOut()
+  cookies().delete('shopinsane_mock_session')
   revalidatePath('/', 'layout')
   redirect('/')
 }

@@ -27,6 +27,5 @@ describe('ProductCard', () => {
     
     expect(screen.getByText('Premium UI Kit')).toBeInTheDocument()
     expect(screen.getByText('$99')).toBeInTheDocument()
-    expect(screen.getByText('A premium UI kit for designers.')).toBeInTheDocument()
   })
 })

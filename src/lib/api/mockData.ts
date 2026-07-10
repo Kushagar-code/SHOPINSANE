@@ -1,0 +1,350 @@
+export interface Product {
+  id: string;
+  category_id: string;
+  name: string;
+  slug: string;
+  price: number;
+  original_price?: number;
+  image_url: string;
+  thumbnails: string[];
+  tags: string[];
+  rating: number;
+  review_count: number;
+  description: string;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  color: string; // Brand color for the chip icon
+}
+
+export const SEEDED_CATEGORIES: Category[] = [
+  { id: "cat-1", name: "Smartphones", slug: "smartphones", color: "#5433eb" },
+  { id: "cat-2", name: "Audio", slug: "audio", color: "#10b981" },
+  { id: "cat-3", name: "Power & Cables", slug: "power-cables", color: "#f59e0b" },
+  { id: "cat-4", name: "Accessories", slug: "accessories", color: "#ef4444" }
+];
+
+export const SEEDED_PRODUCTS: Product[] = [
+  // ================= CAT-1: SMARTPHONES =================
+  {
+    id: "prod-s1",
+    category_id: "cat-1",
+    name: "Titanium Pro Max 15",
+    slug: "titanium-pro-max-15",
+    price: 1199.99,
+    original_price: 1299.99,
+    image_url: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["flagship", "5g", "premium"],
+    rating: 4.8,
+    review_count: 142,
+    description: "Experience ultimate computing power in your palm. Grade-5 titanium chassis paired with dynamic high-refresh displays."
+  },
+  {
+    id: "prod-s2",
+    category_id: "cat-1",
+    name: "Galaxy Ultra 24",
+    slug: "galaxy-ultra-24",
+    price: 1299.99,
+    image_url: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=600&auto=format&fit=crop&q=60",
+      "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["flagship", "stylus", "android"],
+    rating: 4.9,
+    review_count: 98,
+    description: "Next-generation generative AI processing combined with an integrated S-Pen and raw 200MP camera matrices."
+  },
+  {
+    id: "prod-s3",
+    category_id: "cat-1",
+    name: "Pixel 8a",
+    slug: "pixel-8a",
+    price: 499.99,
+    original_price: 549.99,
+    image_url: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["midrange", "camera", "android"],
+    rating: 4.5,
+    review_count: 210,
+    description: "Pure Android software environment featuring class-leading low-light camera processing and machine learning tools."
+  },
+  {
+    id: "prod-s4",
+    category_id: "cat-1",
+    name: "Nothing Phone 2",
+    slug: "nothing-phone-2",
+    price: 599.99,
+    image_url: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["design", "unique", "android"],
+    rating: 4.6,
+    review_count: 85,
+    description: "Symmetrical design architecture showing an elegant, interactive transparent rear glyph interface."
+  },
+  {
+    id: "prod-s5",
+    category_id: "cat-1",
+    name: "Foldable Pro X",
+    slug: "foldable-pro-x",
+    price: 1799.99,
+    image_url: "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["foldable", "premium"],
+    rating: 4.4,
+    review_count: 36,
+    description: "Multi-tasking powerhouse featuring an ultra-thin folding glass panel that transforms from handset to tablet format."
+  },
+
+  // ================= CAT-2: AUDIO =================
+  {
+    id: "prod-a1",
+    category_id: "cat-2",
+    name: "Noise Cancelling Pods Pro",
+    slug: "noise-cancelling-pods-pro",
+    price: 249.99,
+    original_price: 299.99,
+    image_url: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["wireless", "anc", "in-ear"],
+    rating: 4.7,
+    review_count: 312,
+    description: "Double the active noise cancellation capability paired with adaptive audio algorithms and sweat resistance configurations."
+  },
+  {
+    id: "prod-a2",
+    category_id: "cat-2",
+    name: "Studio Over-Ear Max",
+    slug: "studio-over-ear-max",
+    price: 549.99,
+    image_url: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["wireless", "anc", "over-ear"],
+    rating: 4.8,
+    review_count: 175,
+    description: "High-fidelity custom audio drivers embedded in pristine, lightweight aramid housings with dynamic head tracking."
+  },
+  {
+    id: "prod-a3",
+    category_id: "cat-2",
+    name: "Sport Buds Fit",
+    slug: "sport-buds-fit",
+    price: 199.99,
+    image_url: "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1484704849700-f032a568e944?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["workout", "wireless"],
+    rating: 4.3,
+    review_count: 94,
+    description: "Flexible, secure-fit ear hooks optimized for running and intense training regimes. Rain and sweatproof IPX7 rating."
+  },
+  {
+    id: "prod-a4",
+    category_id: "cat-2",
+    name: "Acoustic Wireless XM5",
+    slug: "acoustic-wireless-xm5",
+    price: 299.99,
+    image_url: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["anc", "in-ear"],
+    rating: 4.7,
+    review_count: 220,
+    description: "Unprecedented clarity with dual processor elements driving active noise reduction profiles in dense environments."
+  },
+  {
+    id: "prod-a5",
+    category_id: "cat-2",
+    name: "Bass Heavy Earbuds",
+    slug: "bass-heavy-earbuds",
+    price: 129.99,
+    image_url: "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["bass", "budget"],
+    rating: 4.2,
+    review_count: 140,
+    description: "Enhanced low-frequency feedback and solid punch performance designed for bass-heavy audio genres."
+  },
+
+  // ================= CAT-3: POWER & CABLES =================
+  {
+    id: "prod-p1",
+    category_id: "cat-3",
+    name: "Nano 65W Charger",
+    slug: "nano-65w-charger",
+    price: 49.99,
+    original_price: 59.99,
+    image_url: "https://images.unsplash.com/photo-1622445262465-2481c4574875?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1622445262465-2481c4574875?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["gan", "fast-charge"],
+    rating: 4.8,
+    review_count: 512,
+    description: "Gallium Nitride (GaN) semiconductor architecture supplying ultra-fast charging matrices in a micro pocket format."
+  },
+  {
+    id: "prod-p2",
+    category_id: "cat-3",
+    name: "Magnetic Wireless Pack",
+    slug: "magnetic-wireless-pack",
+    price: 79.99,
+    image_url: "https://images.unsplash.com/photo-1622445261812-70b135c3a44d?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1622445261812-70b135c3a44d?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["magsafe", "wireless"],
+    rating: 4.6,
+    review_count: 184,
+    description: "Snaps magnetically into alignment with modern smartphone frames for a wireless 15W battery pack boost."
+  },
+  {
+    id: "prod-p3",
+    category_id: "cat-3",
+    name: "Braided USB-C Cable (2m)",
+    slug: "braided-usb-c-cable-2m",
+    price: 19.99,
+    image_url: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["cable", "durable"],
+    rating: 4.9,
+    review_count: 672,
+    description: "Heavy-duty double-braided ballistic nylon exterior sheath protecting high-speed 100W PD transmission lines."
+  },
+  {
+    id: "prod-p4",
+    category_id: "cat-3",
+    name: "Desktop Charging Station",
+    slug: "desktop-charging-station",
+    price: 119.99,
+    image_url: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["desk", "wireless"],
+    rating: 4.7,
+    review_count: 86,
+    description: "Multi-outlet power hub containing dedicated magnetic stands, secondary USB-C ports, and clean organization frames."
+  },
+  {
+    id: "prod-p5",
+    category_id: "cat-3",
+    name: "Car Mount Wireless Charger",
+    slug: "car-mount-wireless-charger",
+    price: 39.99,
+    image_url: "https://images.unsplash.com/photo-1586105251261-72a756497a11?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1586105251261-72a756497a11?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["car", "wireless"],
+    rating: 4.4,
+    review_count: 115,
+    description: "Vent-secured smartphone cradle featuring auto-clamping motor locks and continuous 15W Qi power delivery."
+  },
+
+  // ================= CAT-4: ACCESSORIES =================
+  {
+    id: "prod-c1",
+    category_id: "cat-4",
+    name: "Aramid Fiber Case",
+    slug: "aramid-fiber-case",
+    price: 59.99,
+    original_price: 69.99,
+    image_url: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["case", "slim"],
+    rating: 4.8,
+    review_count: 242,
+    description: "Ultra-thin, bulletproof aerospace material construction offering military-grade surface drop armor shielding."
+  },
+  {
+    id: "prod-c2",
+    category_id: "cat-4",
+    name: "Tempered Glass Screen (2-Pack)",
+    slug: "tempered-glass-screen-2-pack",
+    price: 14.99,
+    image_url: "https://images.unsplash.com/photo-1605152276897-4f618f831968?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1605152276897-4f618f831968?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["protection", "glass"],
+    rating: 4.7,
+    review_count: 830,
+    description: "9H hardness index glass shields keeping original display clarity while preventing localized face impacts."
+  },
+  {
+    id: "prod-c3",
+    category_id: "cat-4",
+    name: "Magnetic Phone Grip",
+    slug: "magnetic-phone-grip",
+    price: 24.99,
+    image_url: "https://images.unsplash.com/photo-1503328427499-d92d1ac3ceb7?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1503328427499-d92d1ac3ceb7?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["grip", "magsafe"],
+    rating: 4.5,
+    review_count: 198,
+    description: "Low-profile collapsible ring adapter providing absolute orientation handles and quick tabletop stand positions."
+  },
+  {
+    id: "prod-c4",
+    category_id: "cat-4",
+    name: "Mobile Gimbal Stabilizer",
+    slug: "mobile-gimbal-stabilizer",
+    price: 149.99,
+    image_url: "https://images.unsplash.com/photo-1584438784894-089d6a128f3e?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1584438784894-089d6a128f3e?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["video", "creator"],
+    rating: 4.6,
+    review_count: 57,
+    description: "3-axis active stabilization motor deck equipped with facial AI tracking profiles for cinematic mobile tracking."
+  },
+  {
+    id: "prod-c5",
+    category_id: "cat-4",
+    name: "Bluetooth Tracker Tag",
+    slug: "bluetooth-tracker-tag",
+    price: 29.99,
+    image_url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=60",
+    thumbnails: [
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=60"
+    ],
+    tags: ["tracker", "bluetooth"],
+    rating: 4.3,
+    review_count: 320,
+    description: "Locate hardware attachments in seconds via localized Bluetooth networks and ultra-wideband audio cues."
+  }
+];
+
+export const MOCK_ADMINS = [
+  { email: "joepsycho@shopinsane.com", password: "AdminSecure2026!", role: "admin" },
+  { email: "rajan@shopinsane.com", password: "AdminSecure2026!", role: "admin" }
+];
