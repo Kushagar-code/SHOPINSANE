@@ -9,7 +9,7 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "build:cf": "next-on-pages"
+    "build:cf": "npx vercel build && node patch-async-hooks.js && next-on-pages --no-build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
