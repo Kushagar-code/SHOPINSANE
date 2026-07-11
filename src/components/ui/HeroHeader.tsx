@@ -3,72 +3,84 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
-// ─── Marquee Images ───────────────────────────────────────────────────────────
+// ─── Marquee Images ────────────────────────────────────────────────────────────
+// Using PNG product shots with white/transparent backgrounds that vanish via
+// mix-blend-mode: multiply on the light canvas (#f2f4f5).
+// All images are served with &bg=white or are studio-shot on pure white.
 
 const MARQUEE_ITEMS = [
   {
-    src: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=480&h=340&q=85',
-    alt: 'Premium flagship smartphone',
-    w: 240, h: 170, yOffset: 0,
+    // iPhone 15 Pro – Apple-style white studio shot
+    src: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&h=500&q=90&bg=white',
+    alt: 'Nothing Phone on white',
+    w: 200, h: 220, yOffset: 0,
   },
   {
-    src: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=480&h=380&q=85',
-    alt: 'Sony WH-1000XM over-ear headphones',
-    w: 240, h: 190, yOffset: 12,
+    // Sony WH-1000XM4 – white background product shot
+    src: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=600&h=520&q=90',
+    alt: 'Sony headphones on white',
+    w: 210, h: 230, yOffset: 14,
   },
   {
-    src: 'https://images.unsplash.com/photo-1622445262465-2481c4574875?auto=format&fit=crop&w=420&h=320&q=85',
-    alt: 'Nano GaN 65W charger',
-    w: 210, h: 160, yOffset: -8,
+    // AirPods Pro – white studio
+    src: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=500&h=440&q=90',
+    alt: 'Wireless earbuds on white background',
+    w: 190, h: 200, yOffset: -10,
   },
   {
-    src: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=520&h=340&q=85',
-    alt: 'Mechanical keyboard closeup',
-    w: 260, h: 170, yOffset: 16,
+    // iPhone flat lay on white desk
+    src: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=560&h=500&q=90',
+    alt: 'Smartphone on white surface',
+    w: 200, h: 220, yOffset: 18,
   },
   {
-    src: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=460&h=360&q=85',
-    alt: 'Studio wireless earbuds',
-    w: 230, h: 180, yOffset: -4,
+    // Compact GaN charger on white
+    src: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?auto=format&fit=crop&w=480&h=420&q=90',
+    alt: 'USB-C charger on white',
+    w: 185, h: 200, yOffset: -6,
   },
   {
-    src: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=480&h=320&q=85',
-    alt: 'Premium over-ear headphones lifestyle',
-    w: 240, h: 160, yOffset: 8,
+    // Smart watch on white
+    src: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=520&h=480&q=90',
+    alt: 'Premium smartwatch on white',
+    w: 200, h: 210, yOffset: 10,
   },
   {
-    src: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=440&h=380&q=85',
-    alt: 'Nothing Phone transparent back design',
-    w: 220, h: 190, yOffset: -12,
+    // Mechanical keyboard product shot on white
+    src: 'https://images.unsplash.com/photo-1601445638532-1b608c42094f?auto=format&fit=crop&w=600&h=440&q=90',
+    alt: 'Mechanical keyboard on white',
+    w: 240, h: 185, yOffset: -14,
   },
 ]
 
-// ─── Marquee Track Component ──────────────────────────────────────────────────
+// ─── Marquee Track ────────────────────────────────────────────────────────────
 
 function MarqueeTrack() {
-  // Duplicate the list for seamless looping
-  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS]
-  const totalWidth = MARQUEE_ITEMS.reduce((acc, item) => acc + item.w + 16, 0)
+  // Triple-duplicate for a fully seamless infinite loop at any speed
+  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS, ...MARQUEE_ITEMS]
+  // The animation distance is one full set width
+  const itemGap = 32
+  const totalWidth = MARQUEE_ITEMS.reduce((acc, item) => acc + item.w + itemGap, 0)
 
   return (
+    // Outermost: hard-clip, NO overflow ever escapes this div
     <div
-      className="relative w-full overflow-hidden"
+      className="w-full max-w-[100vw] overflow-hidden"
       style={{
-        // Fade edges into the canvas background
         maskImage:
-          'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
+          'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
         WebkitMaskImage:
-          'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
+          'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
       }}
     >
       <motion.div
         animate={{ x: [0, -totalWidth] }}
         transition={{
-          duration: 32,
+          duration: 28,
           ease: 'linear',
           repeat: Infinity,
         }}
-        className="flex items-end gap-4 will-change-transform"
+        className="flex items-center gap-8 will-change-transform"
         style={{ width: 'max-content' }}
       >
         {items.map((item, i) => (
@@ -78,8 +90,7 @@ function MarqueeTrack() {
               width: item.w,
               height: item.h,
               flexShrink: 0,
-              marginBottom: item.yOffset > 0 ? 0 : Math.abs(item.yOffset),
-              marginTop: item.yOffset > 0 ? item.yOffset : 0,
+              transform: `translateY(${item.yOffset}px)`,
             }}
           >
             <img
@@ -90,11 +101,12 @@ function MarqueeTrack() {
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
-                borderRadius: 16,
+                objectFit: 'contain',   // keep aspect, no crop — crucial for white-bg PNGs
                 display: 'block',
                 userSelect: 'none',
                 pointerEvents: 'none',
+                // multiply: white pixels (255,255,255) × canvas (#f2f4f5) = canvas color
+                // net result: white backgrounds become invisible, gadgets float freely
                 mixBlendMode: 'multiply',
               }}
             />
@@ -108,13 +120,6 @@ function MarqueeTrack() {
 // ─── Brand Wordmark ───────────────────────────────────────────────────────────
 
 function BrandWordmark() {
-  // "shopinsane" — color the dot on the "i" violet
-  // The "i" is at index 4 (s-h-o-p-i). We colour just the letter itself;
-  // the "dot" lives above the letter body but coloring the glyph #0047FF achieves this.
-  const before = 'shop'
-  const accent = 'i'
-  const after = 'nsane'
-
   return (
     <h1
       style={{
@@ -128,14 +133,12 @@ function BrandWordmark() {
         userSelect: 'none',
       }}
     >
-      {before}
-      <span style={{ color: '#0047FF' }}>{accent}</span>
-      {after}
+      shop<span style={{ color: '#0047FF' }}>i</span>nsane
     </h1>
   )
 }
 
-// ─── Main Hero Component ──────────────────────────────────────────────────────
+// ─── Main Hero ────────────────────────────────────────────────────────────────
 
 export function HeroHeader() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -149,6 +152,7 @@ export function HeroHeader() {
   const yHero = useTransform(scrollYProgress, [0, 1], ['0%', '6%'])
 
   return (
+    // Root: w-full + overflow-hidden at the outermost level
     <div
       ref={containerRef}
       className="relative w-full overflow-hidden z-10"
@@ -161,19 +165,19 @@ export function HeroHeader() {
           opacity: opacityHero as any,
           y: yHero as any,
         }}
-        className="relative z-10 flex flex-col items-center text-center"
+        className="relative z-10 flex flex-col items-center text-center w-full overflow-hidden"
       >
-        {/* ── Layer 1: Hardware Marquee ──────────────────────────────────── */}
+        {/* Layer 1 — Hardware Marquee */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full"
+          className="w-full overflow-hidden"
         >
           <MarqueeTrack />
         </motion.div>
 
-        {/* ── Layer 2: Brand Wordmark ───────────────────────────────────── */}
+        {/* Layer 2 — Brand Wordmark */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -183,7 +187,7 @@ export function HeroHeader() {
           <BrandWordmark />
         </motion.div>
 
-        {/* ── Layer 3: Tagline ─────────────────────────────────────────── */}
+        {/* Layer 3 — Tagline */}
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
