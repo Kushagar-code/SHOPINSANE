@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import { ProductDeepEditDrawer, type EditableProduct } from '@/components/ui/ProductDeepEditDrawer'
 
 export const runtime = 'edge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -19,7 +20,8 @@ import {
   Check, 
   Truck, 
   CheckCircle,
-  FilePlus2
+  FilePlus2,
+  Pencil
 } from 'lucide-react'
 import Link from 'next/link'
 import { SEEDED_PRODUCTS, SEEDED_CATEGORIES } from '@/lib/api/mockData'
@@ -52,6 +54,9 @@ export default function AdminPage() {
   // Carrier form input states for each order
   const [orderCarrierInput, setOrderCarrierInput] = useState<Record<string, string>>({})
   const [orderTrackingInput, setOrderTrackingInput] = useState<Record<string, string>>({})
+
+  // Deep Edit Drawer state
+  const [selectedProduct, setSelectedProduct] = useState<EditableProduct | null>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -137,6 +142,45 @@ export default function AdminPage() {
     setStockAdjustments(updated)
     localStorage.setItem('shopinsane_stock_adjustments', JSON.stringify(updated))
     window.dispatchEvent(new Event('stock-changed'))
+  }
+
+  // Save updated product from Deep Edit drawer
+  const handleSaveProduct = (updated: EditableProduct) => {
+    // Check if it's a custom product or a seeded one being overridden
+    const isCustom = customProducts.some((p: any) => p.id === updated.id)
+    
+    if (isCustom) {
+      const next = customProducts.map((p: any) => p.id === updated.id ? { ...p, ...updated } : p)
+      setCustomProducts(next)
+      localStorage.setItem('shopinsane_custom_products', JSON.stringify(next))
+    } else {
+      // For seeded products — persist override in localStorage under a separate key
+      const overrides = JSON.parse(localStorage.getItem('shopinsane_product_overrides') || '{}')
+      overrides[updated.id] = updated
+      localStorage.setItem('shopinsane_product_overrides', JSON.stringify(overrides))
+    }
+    // Sync stock adjustment to match the new stock value
+    const newAdj = updated.stock - (allProducts.find((p: any) => p.id === updated.id)?.stock ?? updated.stock)
+    if (newAdj !== 0) {
+      const adjUpdated = { ...stockAdjustments, [updated.id]: (stockAdjustments[updated.id] || 0) + newAdj }
+      setStockAdjustments(adjUpdated)
+      localStorage.setItem('shopinsane_stock_adjustments', JSON.stringify(adjUpdated))
+    }
+    window.dispatchEvent(new Event('stock-changed'))
+  }
+
+  // Delete a custom product from Deep Edit drawer
+  const handleDeleteProduct = (id: string) => {
+    const next = customProducts.filter((p: any) => p.id !== id)
+    setCustomProducts(next)
+    localStorage.setItem('shopinsane_custom_products', JSON.stringify(next))
+    // Also clean up any stock adjustment for this product
+    const adjUpdated = { ...stockAdjustments }
+    delete adjUpdated[id]
+    setStockAdjustments(adjUpdated)
+    localStorage.setItem('shopinsane_stock_adjustments', JSON.stringify(adjUpdated))
+    window.dispatchEvent(new Event('stock-changed'))
+    setSelectedProduct(null)
   }
 
   // Add custom product to local storage catalog
@@ -238,6 +282,7 @@ export default function AdminPage() {
   }
 
   return (
+    <>
     <div className="min-h-screen bg-canvas-mist pt-24 pb-16 px-6 font-gt-standard">
       <div className="max-w-[1200px] mx-auto space-y-10">
         
@@ -411,7 +456,14 @@ export default function AdminPage() {
                     return (
                       <div key={p.id} className="py-4 flex items-center justify-between gap-4">
                         <div className="min-w-0">
-                          <h4 className="text-sm font-semibold text-ink-black truncate">{p.name}</h4>
+                          <button
+                            onClick={() => setSelectedProduct(p as EditableProduct)}
+                            className="group flex items-center gap-1.5 text-left"
+                            title="Open Deep Edit"
+                          >
+                            <h4 className="text-sm font-semibold text-ink-black truncate group-hover:text-shop-violet transition-colors">{p.name}</h4>
+                            <Pencil className="w-3 h-3 text-muted-gray opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                          </button>
                           <p className="text-xs text-muted-gray mt-0.5">Sold: <span className="font-semibold text-ink-black">{soldCount} units</span></p>
                         </div>
                         
@@ -557,5 +609,14 @@ export default function AdminPage() {
 
       </div>
     </div>
+
+    {/* Product Deep Edit Drawer */}
+    <ProductDeepEditDrawer
+      product={selectedProduct}
+      onClose={() => setSelectedProduct(null)}
+      onSave={handleSaveProduct}
+      onDelete={handleDeleteProduct}
+    />
+    </>
   )
 }
