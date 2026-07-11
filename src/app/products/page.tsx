@@ -2,7 +2,7 @@ import { CatalogSection } from '@/components/ui/CatalogSection'
 import { getProducts } from '@/lib/api/products'
 import { Suspense } from 'react'
 
-export const runtime = 'edge'
+// export const runtime = 'edge'
 
 export default async function ProductsPage() {
   return (

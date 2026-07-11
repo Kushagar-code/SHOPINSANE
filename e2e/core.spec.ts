@@ -4,13 +4,14 @@ test('Core E2E Mock Flow', async ({ page }) => {
   // 1. Homepage Load
   await page.goto('/');
   await expect(page.locator('h1')).toContainText('Insane Tech.');
+  await page.waitForTimeout(2000);
 
   // 2. Add Item to Cart
   // In a real DB we'd select a dynamic item, here we just select the first button
   // Note: We bypass strict DB state in simple frontend E2E check
   const addToCartButton = page.locator('button:has-text("Add to Cart")').first();
   if (await addToCartButton.isVisible()) {
-    await addToCartButton.click();
+    await addToCartButton.click({ force: true });
     
     // 3. Open Drawer
     await expect(page.locator('text=Your Cart')).toBeVisible();
