@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test';
 
 test('Core E2E Mock Flow', async ({ page }) => {
-  // 1. Homepage Load
   await page.goto('/');
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
   await expect(page.locator('h1')).toContainText('Insane Tech.');
   await page.waitForTimeout(2000);
 
