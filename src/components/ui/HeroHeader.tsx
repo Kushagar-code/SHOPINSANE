@@ -1,115 +1,182 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 
+// ─── Animation Variants ───────────────────────────────────────────────────────
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.14, delayChildren: 0.2 }
+  }
+}
+
+const fadeUpVariant = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] as const }
+  }
+}
+
+const imageEntryVariant = {
+  hidden: { opacity: 0, scale: 0.93, y: 20 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] as const, delay: 0.3 }
+  }
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
 export function HeroHeader() {
   const containerRef = useRef<HTMLDivElement>(null)
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start']
   })
 
-  // Smooth parallax scroll effects
-  const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-  const opacityHero = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const scaleHero = useTransform(scrollYProgress, [0, 0.5], [1, 0.96])
-
-  // Staggered load animations
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.15
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1] as const // Brutalist high-energy snap easeOutExpo
-      }
-    }
-  }
+  const opacityHero = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const yHero = useTransform(scrollYProgress, [0, 1], ['0%', '8%'])
 
   return (
-    <div 
-      ref={containerRef} 
-      className="relative w-full bg-[#e5e5e5] overflow-hidden z-10 pt-32 pb-[80px]"
+    <div
+      ref={containerRef}
+      className="relative w-full overflow-hidden z-10"
+      style={{ background: '#222f30' }}
     >
-      {/* Subtle Grid Parallax Overlay */}
-      <motion.div 
-        style={{ y: yBg }}
-        className="absolute inset-0 z-0 opacity-[0.03] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]"
+      {/* ── Subtle noise texture overlay ─────────────────────────────────── */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")`,
+          backgroundSize: '180px 180px',
+          opacity: 0.18,
+          mixBlendMode: 'overlay'
+        }}
       />
 
-      <motion.div 
-        style={{ opacity: opacityHero, scale: scaleHero }}
-        className="relative max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-12 z-10"
+      {/* ── Very faint radial glow at top-right ──────────────────────────── */}
+      <div
+        className="absolute top-0 right-0 w-[600px] h-[500px] pointer-events-none z-0"
+        style={{
+          background: 'radial-gradient(ellipse at 80% 20%, rgba(206,247,158,0.06) 0%, transparent 65%)',
+        }}
+      />
+
+      {/* ── Main content ─────────────────────────────────────────────────── */}
+      <motion.div
+        style={{ opacity: opacityHero, y: yHero }}
+        className="relative z-10 max-w-[1200px] mx-auto px-6 pt-36 pb-[140px] grid grid-cols-1 md:grid-cols-2 items-center gap-16"
       >
-        {/* Left Column - Massive Editorial Typography */}
-        <motion.div 
+        {/* LEFT: Lab-instrument Typography */}
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col text-left space-y-6"
+          className="flex flex-col text-left"
+          style={{ gap: '28px' }}
         >
-          {/* Monospace Mint Tag Pill */}
-          <motion.div 
-            variants={itemVariants}
-            className="px-3.5 py-1 bg-[#d1ffca] text-[#000000] rounded-[64px] font-mono text-[12px] font-bold tracking-wider uppercase w-fit"
+          {/* Bioscience Publication Tag */}
+          <motion.div
+            variants={fadeUpVariant}
+            className="flex items-center gap-2.5 w-fit"
           >
-            NEW ARRIVALS 2026
+            {/* Breathing Lime Dot */}
+            <motion.span
+              animate={{ opacity: [1, 0.35, 1] }}
+              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+              className="block flex-shrink-0 rounded-full"
+              style={{ width: 6, height: 6, background: '#cef79e' }}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--font-roboto-mono), "Courier New", monospace',
+                fontSize: '13px',
+                fontWeight: 400,
+                letterSpacing: '-0.02em',
+                color: '#c9cbbe',
+                textTransform: 'uppercase',
+              }}
+            >
+              New Arrivals 2026
+            </span>
           </motion.div>
 
-          {/* Massive Display Heading */}
-          <motion.h1 
-            variants={itemVariants}
-            className="text-7xl md:text-8xl lg:text-[110px] xl:text-[120px] font-black tracking-tighter leading-[0.9] text-ink-black uppercase"
+          {/* Massive Hero Headline — weight 400, tight tracking */}
+          <motion.h1
+            variants={fadeUpVariant}
+            style={{
+              fontFamily: 'var(--font-inter), "Inter", sans-serif',
+              fontSize: 'clamp(62px, 7.5vw, 100px)',
+              fontWeight: 400,
+              lineHeight: 1.0,
+              letterSpacing: '-4.74px',
+              color: '#ffffff',
+              margin: 0,
+            }}
           >
-            INSANE TECH<span className="text-[#fff100] font-gt-standard font-black">.</span> <br />
-            ZERO COMPROMISE.
+            Insane Tech.<br />
+            Zero Compromise.
           </motion.h1>
 
-          {/* Muted Brutalist Subtext */}
-          <motion.p 
-            variants={itemVariants}
-            className="text-[16px] text-[#444444] max-w-lg font-gt-standard font-normal leading-[1.25] tracking-[-0.031em]"
+          {/* Sub-Headline */}
+          <motion.p
+            variants={fadeUpVariant}
+            style={{
+              fontFamily: 'var(--font-inter), "Inter", sans-serif',
+              fontSize: '18px',
+              fontWeight: 400,
+              lineHeight: 1.35,
+              color: '#8fa3a4',
+              maxWidth: '460px',
+              margin: 0,
+            }}
           >
-            Discover next-generation smartphones, ultra-compact GaN power bricks, and high-fidelity spatial audio. Engineered for those who demand absolute performance.
+            Discover next-generation smartphones, ultra-compact GaN power bricks, and high-fidelity spatial audio. Engineered for absolute performance.
           </motion.p>
         </motion.div>
 
-        {/* Right Column - Floating Tactile Image */}
+        {/* RIGHT: Floating Dark-Mode Tech Image */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 15 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const, delay: 0.35 }}
-          className="relative w-full aspect-square flex items-center justify-center"
+          variants={imageEntryVariant}
+          initial="hidden"
+          animate="visible"
+          className="relative w-full flex items-center justify-center"
+          style={{ aspectRatio: '1 / 1' }}
         >
           <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
+            animate={{ y: [0, -15, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            className="relative w-full h-full"
+            style={{
+              maxWidth: 460,
+              maxHeight: 460,
+              borderRadius: '20px',
+              overflow: 'hidden',
             }}
-            className="relative w-full h-full max-w-[420px] max-h-[420px]"
           >
-            <Image 
-              src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80"
-              alt="Premium High-Fidelity Headphones"
+            <Image
+              src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=900&q=85"
+              alt="Premium high-fidelity headphones on dark background"
               fill
-              className="object-contain filter drop-shadow-md select-none pointer-events-none"
+              className="object-cover select-none pointer-events-none"
+              style={{ filter: 'brightness(0.78) saturate(0.55)' }}
               priority
+            />
+            {/* Lime accent edge glow */}
+            <div
+              className="absolute inset-0 pointer-events-none rounded-[20px]"
+              style={{
+                boxShadow: 'inset 0 0 0 1px rgba(206,247,158,0.10), 0 0 40px 0px rgba(206,247,158,0.06)',
+              }}
             />
           </motion.div>
         </motion.div>
