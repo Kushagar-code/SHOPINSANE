@@ -2,184 +2,210 @@
 
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import Image from 'next/image'
 
-// ─── Animation Variants ───────────────────────────────────────────────────────
+// ─── Marquee Images ───────────────────────────────────────────────────────────
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.14, delayChildren: 0.2 }
-  }
+const MARQUEE_ITEMS = [
+  {
+    src: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=480&h=340&q=85',
+    alt: 'Premium flagship smartphone',
+    w: 240, h: 170, yOffset: 0,
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=480&h=380&q=85',
+    alt: 'Sony WH-1000XM over-ear headphones',
+    w: 240, h: 190, yOffset: 12,
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1622445262465-2481c4574875?auto=format&fit=crop&w=420&h=320&q=85',
+    alt: 'Nano GaN 65W charger',
+    w: 210, h: 160, yOffset: -8,
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=520&h=340&q=85',
+    alt: 'Mechanical keyboard closeup',
+    w: 260, h: 170, yOffset: 16,
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=460&h=360&q=85',
+    alt: 'Studio wireless earbuds',
+    w: 230, h: 180, yOffset: -4,
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=480&h=320&q=85',
+    alt: 'Premium over-ear headphones lifestyle',
+    w: 240, h: 160, yOffset: 8,
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=440&h=380&q=85',
+    alt: 'Nothing Phone transparent back design',
+    w: 220, h: 190, yOffset: -12,
+  },
+]
+
+// ─── Marquee Track Component ──────────────────────────────────────────────────
+
+function MarqueeTrack() {
+  // Duplicate the list for seamless looping
+  const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS]
+  const totalWidth = MARQUEE_ITEMS.reduce((acc, item) => acc + item.w + 16, 0)
+
+  return (
+    <div
+      className="relative w-full overflow-hidden"
+      style={{
+        // Fade edges into the canvas background
+        maskImage:
+          'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
+        WebkitMaskImage:
+          'linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)',
+      }}
+    >
+      <motion.div
+        animate={{ x: [0, -totalWidth] }}
+        transition={{
+          duration: 32,
+          ease: 'linear',
+          repeat: Infinity,
+        }}
+        className="flex items-end gap-4 will-change-transform"
+        style={{ width: 'max-content' }}
+      >
+        {items.map((item, i) => (
+          <div
+            key={i}
+            style={{
+              width: item.w,
+              height: item.h,
+              flexShrink: 0,
+              marginBottom: item.yOffset > 0 ? 0 : Math.abs(item.yOffset),
+              marginTop: item.yOffset > 0 ? item.yOffset : 0,
+              borderRadius: 28,
+              background: '#ffffff',
+              padding: 8,
+              boxShadow:
+                'rgba(0, 0, 0, 0.10) 0px 4px 6px -1px, rgba(0, 0, 0, 0.10) 0px 2px 4px -2px',
+              overflow: 'hidden',
+            }}
+          >
+            <img
+              src={item.src}
+              alt={item.alt}
+              loading="eager"
+              draggable={false}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                borderRadius: 20,
+                display: 'block',
+                userSelect: 'none',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  )
 }
 
-const fadeUpVariant = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] as const }
-  }
+// ─── Brand Wordmark ───────────────────────────────────────────────────────────
+
+function BrandWordmark() {
+  // "shopinsane" — color the dot on the "i" violet
+  // The "i" is at index 4 (s-h-o-p-i). We colour just the letter itself;
+  // the "dot" lives above the letter body but coloring the glyph #5433eb achieves this.
+  const before = 'shop'
+  const accent = 'i'
+  const after = 'nsane'
+
+  return (
+    <h1
+      style={{
+        fontSize: 'clamp(52px, 8.5vw, 112px)',
+        fontWeight: 800,
+        letterSpacing: '-0.05em',
+        lineHeight: 1,
+        color: '#000000',
+        margin: 0,
+        fontFamily: 'var(--font-inter), "Inter", sans-serif',
+        userSelect: 'none',
+      }}
+    >
+      {before}
+      <span style={{ color: '#5433eb' }}>{accent}</span>
+      {after}
+    </h1>
+  )
 }
 
-const imageEntryVariant = {
-  hidden: { opacity: 0, scale: 0.93, y: 20 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 1.4, ease: [0.22, 1, 0.36, 1] as const, delay: 0.3 }
-  }
-}
-
-// ─── Component ────────────────────────────────────────────────────────────────
+// ─── Main Hero Component ──────────────────────────────────────────────────────
 
 export function HeroHeader() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start start', 'end start']
+    offset: ['start start', 'end start'],
   })
 
-  const opacityHero = useTransform(scrollYProgress, [0, 0.55], [1, 0])
-  const yHero = useTransform(scrollYProgress, [0, 1], ['0%', '8%'])
+  const opacityHero = useTransform(scrollYProgress, [0, 0.6], [1, 0])
+  const yHero = useTransform(scrollYProgress, [0, 1], ['0%', '6%'])
 
   return (
     <div
       ref={containerRef}
       className="relative w-full overflow-hidden z-10"
-      style={{ background: '#222f30' }}
+      style={{ background: '#f2f4f5' }}
     >
-      {/* ── Subtle noise texture overlay ─────────────────────────────────── */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")`,
-          backgroundSize: '180px 180px',
-          opacity: 0.18,
-          mixBlendMode: 'overlay'
-        }}
-      />
-
-      {/* ── Very faint radial glow at top-right ──────────────────────────── */}
-      <div
-        className="absolute top-0 right-0 w-[600px] h-[500px] pointer-events-none z-0"
-        style={{
-          background: 'radial-gradient(ellipse at 80% 20%, rgba(206,247,158,0.06) 0%, transparent 65%)',
-        }}
-      />
-
-      {/* ── Main content ─────────────────────────────────────────────────── */}
       <motion.div
-        style={{ opacity: opacityHero, y: yHero }}
-        className="relative z-10 max-w-[1200px] mx-auto px-6 pt-36 pb-[140px] grid grid-cols-1 md:grid-cols-2 items-center gap-16"
+        style={{
+          paddingTop: 'clamp(80px, 12vw, 140px)',
+          paddingBottom: 0,
+          opacity: opacityHero as any,
+          y: yHero as any,
+        }}
+        className="relative z-10 flex flex-col items-center text-center"
       >
-        {/* LEFT: Lab-instrument Typography */}
+        {/* ── Layer 1: Hardware Marquee ──────────────────────────────────── */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col text-left"
-          style={{ gap: '28px' }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full"
         >
-          {/* Bioscience Publication Tag */}
-          <motion.div
-            variants={fadeUpVariant}
-            className="flex items-center gap-2.5 w-fit"
-          >
-            {/* Breathing Lime Dot */}
-            <motion.span
-              animate={{ opacity: [1, 0.35, 1] }}
-              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
-              className="block flex-shrink-0 rounded-full"
-              style={{ width: 6, height: 6, background: '#cef79e' }}
-            />
-            <span
-              style={{
-                fontFamily: 'var(--font-roboto-mono), "Courier New", monospace',
-                fontSize: '13px',
-                fontWeight: 400,
-                letterSpacing: '-0.02em',
-                color: '#c9cbbe',
-                textTransform: 'uppercase',
-              }}
-            >
-              New Arrivals 2026
-            </span>
-          </motion.div>
-
-          {/* Massive Hero Headline — weight 400, tight tracking */}
-          <motion.h1
-            variants={fadeUpVariant}
-            style={{
-              fontFamily: 'var(--font-inter), "Inter", sans-serif',
-              fontSize: 'clamp(62px, 7.5vw, 100px)',
-              fontWeight: 400,
-              lineHeight: 1.0,
-              letterSpacing: '-4.74px',
-              color: '#ffffff',
-              margin: 0,
-            }}
-          >
-            Insane Tech.<br />
-            Zero Compromise.
-          </motion.h1>
-
-          {/* Sub-Headline */}
-          <motion.p
-            variants={fadeUpVariant}
-            style={{
-              fontFamily: 'var(--font-inter), "Inter", sans-serif',
-              fontSize: '18px',
-              fontWeight: 400,
-              lineHeight: 1.35,
-              color: '#8fa3a4',
-              maxWidth: '460px',
-              margin: 0,
-            }}
-          >
-            Discover next-generation smartphones, ultra-compact GaN power bricks, and high-fidelity spatial audio. Engineered for absolute performance.
-          </motion.p>
+          <MarqueeTrack />
         </motion.div>
 
-        {/* RIGHT: Floating Dark-Mode Tech Image */}
+        {/* ── Layer 2: Brand Wordmark ───────────────────────────────────── */}
         <motion.div
-          variants={imageEntryVariant}
-          initial="hidden"
-          animate="visible"
-          className="relative w-full flex items-center justify-center"
-          style={{ aspectRatio: '1 / 1' }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          style={{ marginTop: 40 }}
         >
-          <motion.div
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-            className="relative w-full h-full"
-            style={{
-              maxWidth: 460,
-              maxHeight: 460,
-              borderRadius: '20px',
-              overflow: 'hidden',
-            }}
-          >
-            <Image
-              src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=900&q=85"
-              alt="Premium high-fidelity headphones on dark background"
-              fill
-              className="object-cover select-none pointer-events-none"
-              style={{ filter: 'brightness(0.78) saturate(0.55)' }}
-              priority
-            />
-            {/* Lime accent edge glow */}
-            <div
-              className="absolute inset-0 pointer-events-none rounded-[20px]"
-              style={{
-                boxShadow: 'inset 0 0 0 1px rgba(206,247,158,0.10), 0 0 40px 0px rgba(206,247,158,0.06)',
-              }}
-            />
-          </motion.div>
+          <BrandWordmark />
         </motion.div>
+
+        {/* ── Layer 3: Tagline ─────────────────────────────────────────── */}
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1], delay: 0.28 }}
+          style={{
+            marginTop: 16,
+            marginBottom: 80,
+            fontSize: 16,
+            letterSpacing: '-0.031em',
+            color: '#787574',
+            fontWeight: 400,
+            fontFamily: 'var(--font-inter), "Inter", sans-serif',
+            lineHeight: 1.5,
+          }}
+        >
+          Handpicked technology for the uncompromising.
+        </motion.p>
       </motion.div>
     </div>
   )
