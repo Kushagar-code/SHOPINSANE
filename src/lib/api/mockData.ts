@@ -23,7 +23,7 @@ export interface Category {
 }
 
 export const SEEDED_CATEGORIES: Category[] = [
-  { id: "cat-1", name: "Smartphones", slug: "smartphones", color: "#5433eb" },
+  { id: "cat-1", name: "Smartphones", slug: "smartphones", color: "#0047FF" },
   { id: "cat-2", name: "Audio", slug: "audio", color: "#10b981" },
   { id: "cat-3", name: "Power & Cables", slug: "power-cables", color: "#f59e0b" },
   { id: "cat-4", name: "Accessories", slug: "accessories", color: "#ef4444" }

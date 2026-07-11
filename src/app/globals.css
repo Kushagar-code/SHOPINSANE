@@ -19,11 +19,11 @@
   /* Smooth Focus Outlines */
   *:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #5433eb; /* white, shop-violet */
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #0047FF; /* white, electric-cobalt */
   }
 
   ::selection {
-    background-color: rgba(84, 51, 235, 0.2); /* shop-violet/20 */
+    background-color: rgba(0, 71, 255, 0.15); /* electric-cobalt/15 */
     color: #000000;
   }
 }

@@ -7,7 +7,7 @@ export const runtime = 'edge'
 
 export default async function Home() {
   return (
-    <div className="flex flex-col bg-canvas-mist min-h-screen">
+    <div className="flex flex-col bg-canvas-mist min-h-screen overflow-x-hidden">
       {/* 2.1 Full-Screen Fluid Header Parallax */}
       <HeroHeader />
       

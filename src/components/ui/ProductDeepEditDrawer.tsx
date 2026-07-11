@@ -35,7 +35,7 @@ interface Props {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const pillInput =
-  'w-full h-10 rounded-[9999px] border border-[#ebebeb] bg-white px-4 text-sm text-[#000] outline-none focus:border-[#5433eb] focus:ring-2 focus:ring-[#5433eb]/20 transition-all'
+  'w-full h-10 rounded-[9999px] border border-[#ebebeb] bg-white px-4 text-sm text-[#000] outline-none focus:border-[#0047FF] focus:ring-2 focus:ring-[#0047FF]/20 transition-all'
 
 const fieldLabel =
   'block text-xs font-semibold uppercase tracking-wider text-[#787574] mb-1.5'
@@ -221,7 +221,7 @@ export function ProductDeepEditDrawer({ product, onClose, onSave, onDelete }: Pr
                 <div>
                   <label className={fieldLabel}>Description</label>
                   <textarea
-                    className="w-full rounded-2xl border border-[#ebebeb] bg-white px-4 py-3 text-sm text-[#000] outline-none focus:border-[#5433eb] focus:ring-2 focus:ring-[#5433eb]/20 transition-all resize-none"
+                    className="w-full rounded-2xl border border-[#ebebeb] bg-white px-4 py-3 text-sm text-[#000] outline-none focus:border-[#0047FF] focus:ring-2 focus:ring-[#0047FF]/20 transition-all resize-none"
                     rows={4}
                     value={form.description}
                     onChange={(e) => set('description', e.target.value)}
@@ -278,7 +278,7 @@ export function ProductDeepEditDrawer({ product, onClose, onSave, onDelete }: Pr
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=80&h=80&fit=crop' }}
                       />
                       {idx === 0 && (
-                        <span className="absolute bottom-1 left-1 bg-[#5433eb] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">MAIN</span>
+                        <span className="absolute bottom-1 left-1 bg-[#0047FF] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">MAIN</span>
                       )}
                       <button
                         onClick={() => removeImage(idx)}
@@ -339,7 +339,7 @@ export function ProductDeepEditDrawer({ product, onClose, onSave, onDelete }: Pr
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="w-full h-11 rounded-[9999px] bg-[#5433eb] text-white font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#4526d6] active:scale-[0.98] transition-all disabled:opacity-60"
+                className="w-full h-11 rounded-[9999px] bg-[#0047FF] text-white font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#0038cc] active:scale-[0.98] transition-all disabled:opacity-60"
               >
                 {saving ? (
                   <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />

@@ -16,8 +16,8 @@ const config: Config = {
         'muted-gray': '#787574',
         'cool-stone': '#cccccc',
         'warm-fog': '#acb0aa',
-        'shop-violet': '#5433eb',
-        'violet-wash': '#c0b5f3',
+        'shop-violet': '#0047FF',
+        'violet-wash': '#99b8ff',
         'slate-ink': '#332f2d',
         'ash-veil': '#665a54',
         primary: {
@@ -67,12 +67,12 @@ const config: Config = {
         'buttons': '9999px',
       },
       boxShadow: {
-        'glow-primary': '0 0 15px 0px rgba(147, 51, 234, 0.4)',
-        'glow-intense': '0 0 25px 5px rgba(147, 51, 234, 0.6)',
+        'glow-primary': '0 0 15px 0px rgba(0, 71, 255, 0.3)',
+        'glow-intense': '0 0 25px 5px rgba(0, 71, 255, 0.5)',
         'shadow-sm': 'rgba(0, 0, 0, 0.06) 0px 2px 8px 0px',
         'shadow-sm-2': 'rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px',
         'shadow-lg': 'rgba(0, 0, 0, 0.12) 0px 4px 24px 0px',
-        'shadow-lg-2': 'rgba(69, 36, 219, 0.34) 0px 4px 24px 0px',
+        'shadow-lg-2': 'rgba(0, 71, 255, 0.25) 0px 4px 24px 0px',
       },
       animation: {
         "fade-in": "fadeIn 500ms ease-out forwards",

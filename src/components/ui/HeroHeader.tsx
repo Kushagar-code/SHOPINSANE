@@ -80,12 +80,6 @@ function MarqueeTrack() {
               flexShrink: 0,
               marginBottom: item.yOffset > 0 ? 0 : Math.abs(item.yOffset),
               marginTop: item.yOffset > 0 ? item.yOffset : 0,
-              borderRadius: 28,
-              background: '#ffffff',
-              padding: 8,
-              boxShadow:
-                'rgba(0, 0, 0, 0.10) 0px 4px 6px -1px, rgba(0, 0, 0, 0.10) 0px 2px 4px -2px',
-              overflow: 'hidden',
             }}
           >
             <img
@@ -97,10 +91,11 @@ function MarqueeTrack() {
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                borderRadius: 20,
+                borderRadius: 16,
                 display: 'block',
                 userSelect: 'none',
                 pointerEvents: 'none',
+                mixBlendMode: 'multiply',
               }}
             />
           </div>
@@ -115,7 +110,7 @@ function MarqueeTrack() {
 function BrandWordmark() {
   // "shopinsane" — color the dot on the "i" violet
   // The "i" is at index 4 (s-h-o-p-i). We colour just the letter itself;
-  // the "dot" lives above the letter body but coloring the glyph #5433eb achieves this.
+  // the "dot" lives above the letter body but coloring the glyph #0047FF achieves this.
   const before = 'shop'
   const accent = 'i'
   const after = 'nsane'
@@ -134,7 +129,7 @@ function BrandWordmark() {
       }}
     >
       {before}
-      <span style={{ color: '#5433eb' }}>{accent}</span>
+      <span style={{ color: '#0047FF' }}>{accent}</span>
       {after}
     </h1>
   )
