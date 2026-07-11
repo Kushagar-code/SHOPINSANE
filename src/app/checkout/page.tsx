@@ -115,6 +115,7 @@ export default function CheckoutPage() {
       }
       
       localStorage.setItem('shopinsane_orders', JSON.stringify([newOrder, ...placedOrders]))
+      window.dispatchEvent(new Event('order-placed'))
       clearCart()
       router.push(`/orders/${result.orderId}`)
     }

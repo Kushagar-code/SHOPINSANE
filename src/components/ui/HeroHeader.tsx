@@ -21,7 +21,7 @@ export function HeroHeader() {
   return (
     <div 
       ref={containerRef} 
-      className="relative h-[80vh] flex items-center justify-center overflow-hidden bg-canvas-mist z-10"
+      className="relative pt-32 pb-4 flex flex-col items-center justify-center overflow-hidden bg-canvas-mist z-10"
     >
       {/* Dynamic Marble Parallax Background */}
       <motion.div 
@@ -38,19 +38,17 @@ export function HeroHeader() {
         style={{ opacity: opacityText, scale: scaleText }}
         className="relative z-10 text-center max-w-5xl px-6 select-none"
       >
-        <h1 className="text-5xl sm:text-7xl md:text-8xl font-gt-standard font-semibold tracking-tighter text-ink-black leading-[1.05] mb-6">
-          Curated Assets <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-shop-violet to-violet-wash">
-            For Premium Creators
-          </span>
+        <h1 className="text-[64px] sm:text-[72px] font-gt-standard font-semibold tracking-[-0.05em] text-ink-black leading-[1.05] mb-6">
+          Insane Tech. <br className="hidden sm:inline" />
+          Zero Compromise.
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-muted-gray max-w-2xl mx-auto font-gt-standard font-normal leading-relaxed tracking-tight">
-          Discover exclusive, high-end digital properties designed to elevate your creative workflow and impress your audience instantly.
+        <p className="text-[16px] text-muted-gray max-w-2xl mx-auto font-gt-standard font-normal leading-relaxed tracking-[-0.031em]">
+          Discover next-generation smartphones, ultra-compact GaN power bricks, and high-fidelity spatial audio. Engineered for those who demand absolute performance.
         </p>
       </motion.div>
 
       {/* Decorative Bottom Shadow Split */}
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-canvas-mist to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-canvas-mist to-transparent pointer-events-none" />
     </div>
   )
 }

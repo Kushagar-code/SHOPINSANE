@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('Core E2E Mock Flow', async ({ page }) => {
   // 1. Homepage Load
   await page.goto('/');
-  await expect(page.locator('h1')).toContainText('Curated Assets');
+  await expect(page.locator('h1')).toContainText('Insane Tech.');
 
   // 2. Add Item to Cart
   // In a real DB we'd select a dynamic item, here we just select the first button

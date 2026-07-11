@@ -136,6 +136,7 @@ export default function AdminPage() {
     const updated = { ...stockAdjustments, [productId]: newAdjust }
     setStockAdjustments(updated)
     localStorage.setItem('shopinsane_stock_adjustments', JSON.stringify(updated))
+    window.dispatchEvent(new Event('stock-changed'))
   }
 
   // Add custom product to local storage catalog
@@ -209,6 +210,7 @@ export default function AdminPage() {
 
     setOrders(updated)
     localStorage.setItem('shopinsane_orders', JSON.stringify(updated))
+    window.dispatchEvent(new Event('order-placed'))
   }
 
   if (!mounted) return null
