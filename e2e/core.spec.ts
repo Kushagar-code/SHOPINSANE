@@ -5,24 +5,20 @@ test('Core E2E Mock Flow', async ({ page }) => {
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   await expect(page.locator('h1')).toContainText('Insane Tech.');
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(2500);
 
   // 2. Add Item to Cart
-  // In a real DB we'd select a dynamic item, here we just select the first button
-  // Note: We bypass strict DB state in simple frontend E2E check
   const addToCartButton = page.locator('button:has-text("Add to Cart")').first();
-  if (await addToCartButton.isVisible()) {
-    await addToCartButton.click({ force: true });
-    
-    // 3. Open Drawer
-    await expect(page.locator('text=Your Cart')).toBeVisible();
-    await expect(page.locator('text=Proceed to Checkout')).toBeVisible();
+  await addToCartButton.click({ force: true });
+  
+  // 3. Open Drawer
+  await expect(page.locator('text=Your Cart')).toBeVisible();
+  await expect(page.locator('text=Proceed to Checkout')).toBeVisible();
 
-    // 4. Checkout Navigation
-    await page.locator('text=Proceed to Checkout').click();
-    await expect(page).toHaveURL(/.*checkout/);
-    
-    // Check form loads
-    await expect(page.locator('h1')).toContainText('Secure Checkout');
-  }
+  // 4. Checkout Navigation
+  await page.locator('text=Proceed to Checkout').click({ force: true });
+  await expect(page).toHaveURL(/.*checkout/);
+  
+  // Check form loads
+  await expect(page.locator('h1')).toContainText('Secure Checkout');
 });
